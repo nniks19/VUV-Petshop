@@ -38,11 +38,13 @@ ul.dropdown-menu li:hover > ul.dropdown-menu, ul.dropdown-menu li:focus > ul.dro
     }
 a { 
     color: inherit;
- } 
-#card_photo{
-    display: block;
-    max-width:230px;
-    max-height:95px;
-    width: auto;
-    height: auto;
+} 
+.cardimage{
+    height:100%;
+    width: 100%;
+    object-fit: contain;
+}
+.cardimageholder{
+    height:300px;
+    width:300px;
 }
