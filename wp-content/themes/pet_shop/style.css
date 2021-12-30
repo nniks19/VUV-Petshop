@@ -1,0 +1,48 @@
+/*
+Theme Name: VUV Pet Shop
+Author: Nikola Stjepanović
+Description: Pet_shop
+Version: 1.0
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: VUV
+*/
+
+.narancasti_tekst{
+    color: #f1a40e;
+}
+.narancasti_btn{
+    background: #F77D24;
+    display: inline-block;
+    color: #fff;
+    font-family: Sans-serif;
+    font-size: 18px;
+}
+.bijeli_tekst{
+    color:#F0F8FF;
+}
+ul.dropdown-menu li > ul.dropdown-menu{
+    left: 100%;
+    top: 0;
+}
+ul.dropdown-menu li:hover > ul.dropdown-menu, ul.dropdown-menu li:focus > ul.dropdown-menu{
+    display: block
+}
+#three_dots{
+    overflow: hidden;
+    width:600px;
+    display: -webkit-box;
+    color:F0F8FF;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    }
+a { 
+    color: inherit;
+ } 
+#card_photo{
+    display: block;
+    max-width:230px;
+    max-height:95px;
+    width: auto;
+    height: auto;
+}
