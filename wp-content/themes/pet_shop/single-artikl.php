@@ -11,7 +11,7 @@ wp_head();
 </div>
 <div class="container narancasti_tekst">
     <?php the_content(); ?>
-
+    <?php echo '<div>Cijena: ' . get_post_meta ( $post->ID, 'cijena_artikla', TRUE) . ' kn</div><br>'; ?>
     <?php
     if(get_post_meta( $post->ID, 'kolicina_artikla', TRUE)){
         echo 'Kolicina: '. get_post_meta( $post->ID, 'kolicina_artikla', TRUE )[0]; 

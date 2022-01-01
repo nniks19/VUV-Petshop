@@ -2,7 +2,7 @@
     get_header();
     wp_head();
     $page_object = get_queried_object_id();
-    $args = array( 'cat' => $page_object, 'post_type' =>  'artikl', 'posts_per_page' => 999, 'post_status' => 'publish'); 
+    $args = array( 'cat' => $page_object, 'post_type' =>  'artikl', 'posts_per_page' => 50, 'post_status' => 'publish'); 
     $postslist = new WP_QUERY( $args );    
     echo'<div class="container pt-1">';
     echo '<section class="bg-light pt-1 pb-1 shadow-sm">
@@ -26,10 +26,12 @@
                <p class="card-text mb-4"><?php the_excerpt(); ?> <a href="<?php the_permalink(); ?>">Prikaži više</a></p>
                <?php
                if(get_post_meta( $post->ID, 'kolicina_artikla', TRUE)){
-                   echo '<a href="#" class="btn btn-primary mt-auto align-self-start"><i class="fas fa-cart-plus"></i> Dodaj u košaricu <!-- TODO: Nakon funkcionalnosti košarice klik ovdje dodaje artikl u košaricu--></a>';
+                   echo '<div class="mt-auto justify-content-between d-flex align-items-center"><a href="#" class="btn btn-primary"><i class="fas fa-cart-plus"></i> Dodaj u košaricu</a>'.'<a class="">Cijena: ' . get_post_meta( $post->ID, 'cijena_artikla', TRUE). ' kn</a>'.'</div>';
                } else{
-                   echo '<div class="mt-auto align-self-start"><b>Trenutno nema na stanju!</b></div>';}
+                   echo '<div class="mt-auto justify-content-between d-flex align-items-center"><b>Trenutno nema na stanju!</b>'.'<a class="">Cijena: ' . get_post_meta( $post->ID, 'cijena_artikla', TRUE). ' kn</a>'.'</div>';}
+
                ?>
+               
              </div>
            </div>
          </div>

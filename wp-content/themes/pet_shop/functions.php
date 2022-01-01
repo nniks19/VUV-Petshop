@@ -154,27 +154,33 @@ function add_meta_box_artikl()
 
 function html_meta_box_artikl($post)
 {
-    wp_nonce_field("spremi_kolicinu_artikla", "artikl_kolicina_nonce");
-
+    wp_nonce_field("spremi_podatke_artikla", "artikl_kolicina_nonce");
+    wp_nonce_field("spremi_podatke_artikla", "artikl_cijena_nonce");
     //dohvaćanje meta vrijednosti
 
     $kolicina_artikla = get_post_meta($post->ID, "kolicina_artikla", true);
+    $cijena_artikla = get_post_meta($post->ID, "cijena_artikla", true);
     echo '
 			<div>
 				<div>
 					<label for="kolicina_artikla">Kolicina artikla: </label>
-					<input type="text" id="kolicina_artikla" name="kolicina_artikla" value="' .$kolicina_artikla .'" />
+					<input type="number" id="kolicina_artikla" name="kolicina_artikla" value="' .$kolicina_artikla .'" /> kom
 				</div><br/>
+                <div>
+                    <label for="cijena_artikla">Cijena artikla: </label>
+                    <input type="number" min="0.1" step="any" id="cijena_artikla" required="true" name="cijena_artikla" value="' .$cijena_artikla .'" /> kn
+                </div>
 			</div>';
 }
-function spremi_kolicinu_artikla($post_id)
+function spremi_podatke_artikla($post_id)
 {
     $is_autosave = wp_is_post_autosave($post_id);
     $is_revision = wp_is_post_revision($post_id);
 	$is_valid_nonce_artikl_kolicina = ( isset( $_POST[ 'artikl_kolicina_nonce' ] ) && wp_verify_nonce(
 		$_POST[ 'artikl_kolicina_nonce' ], basename( __FILE__ ) ) ) ? 'true' : 'false';
-			
-    if ($is_autosave || $is_revision || !$is_valid_nonce_artikl_kolicina) {
+	$is_valid_nonce_artikl_cijena = ( isset( $_POST['artikl_cijena_nonce' ] ) && wp_verify_nonce(
+        $_POST['artikl_cijena_nonce'], basename(__FILE__) ) ) ? 'true' : 'false';
+    if ($is_autosave || $is_revision || !$is_valid_nonce_artikl_kolicina || !$is_valid_nonce_artikl_cijena) {
         return;
     }
     if (!empty($_POST["kolicina_artikla"])) {
@@ -186,9 +192,18 @@ function spremi_kolicinu_artikla($post_id)
     } else {
         delete_post_meta($post_id, "kolicina_artikla");
     }
+    if (!empty($_POST["cijena_artikla"])) {
+        update_post_meta(
+            $post_id,
+            "cijena_artikla",
+            $_POST["cijena_artikla"]
+        );
+    } else {
+        delete_post_meta($post_id, "cijena_artikla");
+    }
 }
 add_action("add_meta_boxes", "add_meta_box_artikl");
-add_action("save_post", "spremi_kolicinu_artikla");
+add_action("save_post", "spremi_podatke_artikla");
 
 # Ucitavanje CSS datoteka
 function UcitajCssTeme()
