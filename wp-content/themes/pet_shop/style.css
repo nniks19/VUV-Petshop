@@ -48,3 +48,8 @@ a {
     height:300px;
     width:300px;
 }
+footer{
+    position: relative;
+	margin-top: -180px; /* negative value of footer height */
+	clear:both;
+}
