@@ -42,7 +42,7 @@
            }
     endwhile;
 else:
-    echo 'Odabrana kategorija nema artikala!';
+    echo '<div class="text-center">Odabrana kategorija nema artikala!</div>';
 endif;
 
     echo '</section> </div> </div>';
