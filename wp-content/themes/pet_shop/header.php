@@ -40,9 +40,9 @@
 
    
                   </ul>
-                  <form class="d-flex">
-                     <input class="form-control me-2" type="search" placeholder="Pretraži" aria-label="Search">
-                     <button class="btn btn-outline-success" type="submit">Pretraži</button>
-                  </form>
+                  
+                  <div class="d-flex px-5">
+                     <?php echo do_shortcode('[wpdreams_ajaxsearchlite]'); ?>
+                  </div>
             </div>
          </nav>
