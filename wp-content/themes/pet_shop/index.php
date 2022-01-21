@@ -6,6 +6,15 @@ wp_head();
     <?php the_content(); ?>
 </div>
 
+
+
+
+
+
+
+
+
+
 <?php
 get_footer();
 

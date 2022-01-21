@@ -40,9 +40,11 @@
 
    
                   </ul>
-                  
+                  <?php echo '<a href="https://localhost/petshop/kosarica/"><i class="fas fa-shopping-cart d-flex justify-content-center mx-auto"></i></a>'; ?>
+
                   <div class="d-flex px-5">
                      <?php echo do_shortcode('[wpdreams_ajaxsearchlite]'); ?>
+                    
                   </div>
             </div>
          </nav>

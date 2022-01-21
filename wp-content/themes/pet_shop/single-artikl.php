@@ -16,6 +16,8 @@ wp_head();
     if(get_post_meta( $post->ID, 'kolicina_artikla', TRUE)){
         echo 'Kolicina: '. get_post_meta( $post->ID, 'kolicina_artikla', TRUE )[0]; 
         echo ' kom';
+        $shortcode_cart = '[wp_cart_button name="'.$post->post_title.'" price="25"]';
+        echo do_shortcode($shortcode_cart);
         echo '<div class=""><button class="narancasti_btn"><i class="fas fa-cart-plus"></i></button></div>';
     } else{
         echo '<div><b>Proizvod trenutno nije dostupan!</b></div>';
