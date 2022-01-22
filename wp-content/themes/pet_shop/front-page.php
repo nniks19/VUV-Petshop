@@ -1,23 +1,25 @@
 <?php
    get_header();
    ?>
-<div class="container">
+<div class="container mt-1">
    <div class="row">
-      <div class="col-md-3 border-end  bg-white">
+      <div class="col-md-3 h-50 bg-white">
          <div class="widget-content">
             <div class="widget-title">
                <aside data-css-sidebar="sidebar">
                   <form data-css-form="filter" data-js-form="filter">
                      <h2 data-css-form="title">Filtriraj proizvode</h2>
                      <fieldset data-css-form="group">
-                        <label data-css-form="label" for="artikl-naslov">Pretraži po naslovu</label>
+                        <label data-css-form="label" for="artikl-naslov">Pretraživanje po naslovu/opisu</label>
                         <input data-css-form="input" type="text" id="artikl-naslov" name="artikl-naslov" placeholder="Akvarij">
                      </fieldset>
                      <fieldset data-css-form="group">
-                        <label data-css-form="label" for="artikl-kategorija">Kategorije</label>
+                        <label data-css-form="label" for="artikl-kategorija">Pretraživanje po kategoriji</label>
                         <?php
                            $kategorije = get_terms( array(
                                'taxonomy' => 'category',
+                               'order' =>'ASC',
+                               'orderby'=>'title',
                                'hide_empty' => false,
                            ) );
                            ?>
@@ -29,27 +31,50 @@
                         </select>
                      </fieldset>
                      <fieldset data-css-form="group">
-                        <label data-css-form="label">Brendovi</label>
+                        <label data-css-form="label">Pretraživanje po brendu</label>
                         <?php
-                           $args = array('post_type' =>  'brend', 'posts_per_page' => 50, 'post_status' => 'publish'); 
-                           $postslist = new WP_QUERY( $args );  
-                           while($postslist->have_posts()): $postslist->the_post()
+                           $brendovi = new WP_Query(array(
+                               'post_type' => 'brend',
+                               'posts_per_page' => -1,
+                               'order' => 'ASC',
+                               'orderby' =>'title'
+                           ) );
                            ?>
-                        <div data-css-form="input-group">
-                           <input type="checkbox" id="<?= the_title(); ?>" name="artikl-brendovi[]" value="<?= the_title(); ?>"><label for="<?= the_title(); ?>"><?php the_title(); ?></label>
-                        </div>
-                        <?php endwhile; ?>
-                     </fieldset>
-                     <fieldset data-css-form="group">
-                        <label data-css-form="label" for="artikl-redoslijed">Poredaj po</label>
-                        <select data-css-form="input select" id="artikl-redoslijed" name="artikl-redoslijed">
-                           <option value="">List Order</option>
-                           <option value="Popularity">Popularity</option>
-                           <option value="Alphabetical">Abecedi</option>
+                        <select data-css-form="input select" id="artikl-brend" name="artikl-brend">
+                           <option>Odaberi brend</option>
+                           <?php  if ($brendovi->have_posts()) :
+                                    while($brendovi->have_posts()): $brendovi->the_post(); ?>
+                           <option value="<?=  get_the_ID(); ?>"><?= the_title(); ?></option>
+                           <?php    endwhile; endif; ?>
                         </select>
                      </fieldset>
+                     <fieldset data-css-form="group">
+                        <label data-css-form="label" for="artikl-raspolozivost">Pretraži po raspoloživosti</label>
+                        <select data-css-form="input select" id="artikl-raspolozivost" name="artikl-raspolozivost">
+                           <option value="">Odaberite dostupnost</option>
+                           <option value="available">Raspoloživo</option>
+                           <option value="not_available">Nije raspoloživo</option>
+                        </select>
+                     </fieldset>
+                     <fieldset data-css-form="group">
+                        <label data-css-form="label" for="artikl-redoslijed">Poredak pretraživanja</label>
+                        <select data-css-form="input select" id="artikl-redoslijed" name="artikl-redoslijed">
+                           <option value="">Odaberite željeni poredak</option>
+                           <option value="ASC">Uzlazni</option>
+                           <option value="DESC">Silazni</option>
+                           <option value="rand">Nasumično</option>
+                        </select>
+                     </fieldset>
+                     <fieldset data-css-form="group">
+                           <label for="min-price" class="form-label">Minimalna cijena: </label>
+                           <span id="min-price-txt">0 KN</span>
+                           <input type="range" class="form-range" min="0" max="4999" id="min-price" name="min-price" step="1" value="0">
+                           <label for="max-price" class="form-label">Maksimalna cijena: </label>
+                           <span id="max-price-txt">5000 KN</span>
+                           <input type="range" class="form-range" min="1" max="5000" id="max-price" name="max-price" step="1" value="5000">
+                     </fieldset>
                      <fieldset data-css-form="group right">
-                        <button data-css-button="button red">Filter</button>
+                        <button class="btn btn-primary">Filtriraj</button>
                         <input type="hidden" name="action" value="filter">
                      </fieldset>
                   </form>
@@ -57,7 +82,7 @@
             </div>
          </div>
       </div>
-      <div class="col w-25 container-xl">
+      <div class="col container-xl">
          <?php
             $args = array(
               'post_type' => 'artikl',

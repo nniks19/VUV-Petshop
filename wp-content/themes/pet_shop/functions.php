@@ -206,28 +206,58 @@ function filter_ajax()
     # Dohvaćanje odabranih stvari koje ću koristiti u Query-u
     $artikl_naslov = $_POST['artikl-naslov'];
     $artikl_kategorija = $_POST['artikl-kategorija'];
-    $artikl_brendovi = $_POST['artikl-brendovi'];
+    $artikl_brend = $_POST['artikl-brend'];
+    $artikl_raspolozivost = $_POST['artikl-raspolozivost'];
     $artikl_redoslijed = $_POST['artikl-redoslijed'];
     $artikl_akcija = $_POST['action'];
-
+    $artikl_min_cijena = $_POST['min-price'];
+    $artikl_max_cijena = $_POST['max-price'];
     #Argumenti
     $args = array(
         'post_type' => 'artikl',
         'posts_per_page' => - 1,
         'order' => 'ASC'
     );
-
     # Za search
     if (!empty($artikl_naslov))
     {
         $args['s'] = $artikl_naslov; # Dinamicki nacin za punjenje argumenata iznad.
-        
+    }
+    if (!empty($artikl_kategorija)){
+        $args['cat']= $artikl_kategorija;
+    }
+    if (!empty($artikl_brend) && $artikl_brend != "Odaberi brend"){
+        $artikli_od_brenda = explode(",",get_post_meta($artikl_brend, 'artikli_od_brenda', true));
+        $args['post__in'] = $artikli_od_brenda;
+    }
+    if (!empty($artikl_redoslijed)){
+        $args['orderby'] = 'title';
+        if ($artikl_redoslijed == 'ASC'){
+        $args['order']= 'ASC';
+        } if ($artikl_redoslijed == 'DESC'){
+        $args['order']= 'DESC';
+        } if ($artikl_redoslijed == 'rand'){
+        $args['orderby']= 'rand';
+        }
+    }
+    if (!empty($artikl_raspolozivost)){
+        if ($artikl_raspolozivost == 'available'){
+            $args['meta_query'] = array(array('key' => 'kolicina_artikla', 'value' => 1, 'type'=>'numeric', 'compare' => '>='));
+        } if ($artikl_raspolozivost == 'not_available'){
+            $args['meta_query'] = array(array('key' => 'kolicina_artikla', 'compare' => 'NOT EXISTS'));
+        }
+    }
+    if (!empty($artikl_min_cijena) && !empty($artikl_max_cijena)){
+        if ($artikl_min_cijena > $artikl_max_cijena){
+            echo '<script>alert("Maksimalna cijena ne može biti veća od minimalne cijene artikla!");</script>';
+            echo '<script>console.log('.$artikl_min_cijena.');</script>';
+        } else{
+            $args['meta_query'][] = array(array('key' => 'cijena_artikla','value' => array( $artikl_min_cijena, $artikl_max_cijena),'type' => 'numeric','compare' => 'BETWEEN'));
+        }
     }
     $query = new WP_Query($args);
     $brojac = 0;
-    print_r($brojac);
-    echo '<main data-css-content="main">
-      <div data-css-content="wrapper" data-js-filter="target">';
+
     if ($query->have_posts()):
 
         $counter = 0;
@@ -244,7 +274,7 @@ function filter_ajax()
             $excerpt = get_the_excerpt();
             $kolicina = get_post_meta($artikl_id, 'kolicina', true);
 
-            $taxonomy = 'genre';
+            $taxonomy = 'category';
             // Get the term IDs assigned to post.
             $post_terms = wp_get_object_terms($artikl_id, $taxonomy, array(
                 'fields' => 'ids'
@@ -301,7 +331,11 @@ function filter_ajax()
                 echo '</div>';
             }
         endwhile;
+    else:
+        echo '<div class="text-center bg-white mt-4">Ne postoji niti jedan artikl sa odabranim kriterijima!</div>';
     endif;
+
+    
     wp_reset_postdata();
 
     die();
