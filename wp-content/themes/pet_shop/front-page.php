@@ -1,14 +1,15 @@
 <?php
    get_header();
+   wp_head(); 
    ?>
 <div class="container mt-1">
    <div class="row">
-      <div class="col-md-3 h-50 bg-white">
+   <div class="col-md-3 h-50 bg-white rounded-3">
          <div class="widget-content">
             <div class="widget-title">
                <aside data-css-sidebar="sidebar">
                   <form data-css-form="filter" data-js-form="filter">
-                     <h2 data-css-form="title">Filtriraj proizvode</h2>
+                     <h2 data-css-form="title">Filtriraj artikle</h2>
                      <fieldset data-css-form="group">
                         <label data-css-form="label" for="artikl-naslov">Pretraživanje po naslovu/opisu</label>
                         <input data-css-form="input" type="text" id="artikl-naslov" name="artikl-naslov" placeholder="Akvarij">
@@ -67,11 +68,11 @@
                      </fieldset>
                      <fieldset data-css-form="group">
                            <label for="min-price" class="form-label">Minimalna cijena: </label>
-                           <span id="min-price-txt">0 KN</span>
-                           <input type="range" class="form-range" min="0" max="4999" id="min-price" name="min-price" step="1" value="0">
+                           <span id="min-price-txt">1 KN</span>
+                           <input type="range" class="form-range" min="1" max="4999" id="min-price" name="min-price" step="1" value="1">
                            <label for="max-price" class="form-label">Maksimalna cijena: </label>
                            <span id="max-price-txt">5000 KN</span>
-                           <input type="range" class="form-range" min="1" max="5000" id="max-price" name="max-price" step="1" value="5000">
+                           <input type="range" class="form-range" min="2" max="5000" id="max-price" name="max-price" step="1" value="5000">
                      </fieldset>
                      <fieldset data-css-form="group right">
                         <button class="btn btn-primary">Filtriraj</button>
@@ -147,7 +148,9 @@
                            <p class="card-text mb-4"><?php the_excerpt(); ?> <a href="<?php the_permalink(); ?>">Prikaži više</a></p>
                            <?php
                               if(get_post_meta( $post->ID, 'kolicina_artikla', TRUE)){
-                                  echo '<div class="mt-auto justify-content-between d-flex align-items-center"><a href="#" class="btn btn-primary btn-sm"><i class="fas fa-cart-plus"></i> Dodaj u košaricu</a>'.'<a class="">Cijena: ' . get_post_meta( $post->ID, 'cijena_artikla', TRUE). ' kn</a>'.'</div>';
+                                 echo '<div class="mt-auto justify-content-between d-flex align-items-center"><button id="'.$post->ID.'" onclick="alertMe(this, \'';
+                                 echo the_title();
+                                 echo '\')" class="btn btn-primary btn-sm"><i class="fas fa-cart-plus"></i> Dodaj u košaricu</button>'.'<a class="">Cijena: ' . get_post_meta( $post->ID, 'cijena_artikla', TRUE). ' kn</a>'.'</div>';
                               } else{
                                   echo '<div class="mt-auto justify-content-between d-flex align-items-center"><b>Nije raspoloživo!</b>'.'<a class="">Cijena: ' . get_post_meta( $post->ID, 'cijena_artikla', TRUE). ' kn</a>'.'</div>';}
                               
@@ -164,6 +167,7 @@
                   ?>
             </div>
       </div>
+      
    </div>
 </div>
 </main>

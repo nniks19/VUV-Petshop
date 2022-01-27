@@ -6,12 +6,12 @@
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta name="description" content="">
       <meta name="author" content="">
-      <link rel="icon" href="../../favicon.ico">
+      <link rel="icon" href="favicon.ico">
       <title><?php wp_title(); ?></title>
       <?php wp_head(); ?>
    </head>
    <body <?php body_class(); ?> >
-         <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light">
+         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
                <a class="navbar-brand" href="#">
                   <?php theme_prefix_the_custom_logo() ?>
@@ -43,7 +43,7 @@
 
                   <div class="d-flex px-5">
                   <?php echo '<a href="https://localhost/petshop/kosarica/"><i class="fas fa-shopping-cart d-flex justify-content-center mx-auto"></i></a>'; ?>
-                    
+
                   </div>
             </div>
          </nav>

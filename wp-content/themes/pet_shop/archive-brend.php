@@ -34,7 +34,7 @@
            }
     endwhile;
 else:
-    echo '<div class="text-center">Odabrani brend nema artikala!</div>';
+    echo '<div class="text-center">Nema brendova!</div>';
 endif;
 
     echo '</section> </div> </div>';

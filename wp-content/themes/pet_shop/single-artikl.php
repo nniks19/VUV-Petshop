@@ -2,23 +2,24 @@
 get_header();
 wp_head();
 ?>
-<div class="container bijeli_tekst">
+<div class="container mt-2 bg-white">
     <div class="text-center">
     <h1><?php single_post_title() ?> <h1>
         <?php the_post_thumbnail(); ?>
     </div>
-    <h2 class="bijeli_tekst">Opis: </h2>
 </div>
-<div class="container narancasti_tekst">
+<div class="container mt-2 bg-white text-center">
+    <h2>Opis: </h2>
+
     <?php the_content(); ?>
     <?php echo '<div>Cijena: ' . get_post_meta ( $post->ID, 'cijena_artikla', TRUE) . ' kn</div><br>'; ?>
     <?php
     if(get_post_meta( $post->ID, 'kolicina_artikla', TRUE)){
         echo 'Kolicina: '. get_post_meta( $post->ID, 'kolicina_artikla', TRUE )[0]; 
         echo ' kom';
-        $shortcode_cart = '[wp_cart_button name="'.$post->post_title.'" price="25"]';
-        echo do_shortcode($shortcode_cart);
-        echo '<div class=""><button class="narancasti_btn"><i class="fas fa-cart-plus"></i></button></div>';
+        echo '<div class="mt-auto justify-content-between d-flex align-items-center"><button id="'.$post->ID.'" onclick="alertMe(this, \'';
+        echo the_title();
+        echo '\')" class="btn btn-primary btn-sm"><i class="fas fa-cart-plus"></i> Dodaj u košaricu</button>'.'<a class="">Cijena: ' . get_post_meta( $post->ID, 'cijena_artikla', TRUE). ' kn</a>'.'</div>';
     } else{
         echo '<div><b>Proizvod trenutno nije dostupan!</b></div>';
     }

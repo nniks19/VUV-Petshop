@@ -39,6 +39,9 @@ function prefix_bs5_dropdown_data_attribute($atts, $item, $args)
     return $atts;
 }
 
+add_filter('show_admin_bar', '__return_false');
+
+
 #Includanje navwalkera
 function prefix_modify_nav_menu_args($args)
 {
@@ -80,13 +83,558 @@ function registriraj_brend_cpt()
 }
 add_action("init", "registriraj_brend_cpt", 0);
 
-function registriraj_recenziju_cpt()
+function registriraj_ljubimca_cpt()
 {
-    $labels = ["name" => _x("Recenzije", "Post Type General Name", "text_domain") , "singular_name" => _x("Brend", "Post Type Singular Name", "text_domain") , "menu_name" => __("Recenzije", "text_domain") , "name_admin_bar" => __("Recenzija", "text_domain") , "archives" => __("Arhiva recenzija", "text_domain") , "attributes" => __("Atributi recenzije", "text_domain") , "parent_item_colon" => __("Parent Item:", "text_domain") , "all_items" => __("Sve recenzije", "text_domain") , "add_new_item" => __("Dodaj novu recenziju", "text_domain") , "add_new" => __("Dodaj novu recenziju", "text_domain") , "new_item" => __("Nova recenzija", "text_domain") , "edit_item" => __("Uredi recenziju", "text_domain") , "update_item" => __("Ažuriraj recenziju", "text_domain") , "view_item" => __("Pregledaj recenziju", "text_domain") , "view_items" => __("Pregledaj recenzije", "text_domain") , "search_items" => __("Pretraži recenziju", "text_domain") , "not_found" => __("Nije pronađena", "text_domain") , "not_found_in_trash" => __("Nije pronađena u smeću", "text_domain") , "featured_image" => __("Preporučena slika", "text_domain") , "set_featured_image" => __("Postavi preporučenu sliku", "text_domain") , "remove_featured_image" => __("Obriši preporučenu sliku", "text_domain") , "use_featured_image" => __("Koristi kao preporučenu sliku", "text_domain") , "insert_into_item" => __("Dodaj u recenziju", "text_domain") , "uploaded_to_this_item" => __("Prenesi u recenziju", "text_domain") , "items_list" => __("Lista recenzija", "text_domain") , "items_list_navigation" => __("Navigacijska lista recenzija", "text_domain") , "filter_items_list" => __("Filtrirana lista recenzija", "text_domain") , ];
-    $args = ["label" => __("Recenzija", "text_domain") , "description" => __("recenzija", "text_domain") , "labels" => $labels, "supports" => ["title", "editor", 'thumbnail'], "taxonomies" => ["category"], "hierarchical" => false, "public" => true, "show_ui" => true, "show_in_menu" => true, "menu_position" => 5, "show_in_admin_bar" => true, "show_in_nav_menus" => true, "can_export" => true, "has_archive" => true, "exclude_from_search" => false, "publicly_queryable" => true, "capability_type" => "page", ];
-    register_post_type("recenzija", $args);
+    $labels = ["name" => _x("Ljubimci", "Post Type General Name", "text_domain") ,
+    "singular_name" => _x("ljubimac", "Post Type Singular Name", "text_domain") ,
+    "menu_name" => __("Ljubimci", "text_domain") ,
+    "name_admin_bar" => __("Ljubimac", "text_domain") , 
+    "archives" => __("Arhiva ljubimaca", "text_domain") , 
+    "attributes" => __("Atributi ljubimaca", "text_domain") , 
+    "parent_item_colon" => __("Parent Item:", "text_domain") , 
+    "all_items" => __("Svi ljubimci", "text_domain") , 
+    "add_new_item" => __("Dodaj novog ljubimca", "text_domain") , 
+    "add_new" => __("Dodaj novog ljubimca", "text_domain") , 
+    "new_item" => __("Novi ljubimac", "text_domain") , 
+    "edit_item" => __("Uredi ljubimca", "text_domain") , 
+    "update_item" => __("Ažuriraj ljubimca", "text_domain") , 
+    "view_item" => __("Pregledaj ljubimca", "text_domain") , 
+    "view_items" => __("Pregledaj ljubimce", "text_domain") , 
+    "search_items" => __("Pretraži ljubimca", "text_domain") , 
+    "not_found" => __("Nije pronađen", "text_domain") , 
+    "not_found_in_trash" => __("Nije pronađen u smeću", "text_domain") , 
+    "featured_image" => __("Preporučena slika", "text_domain") , 
+    "set_featured_image" => __("Postavi preporučenu sliku", "text_domain") , 
+    "remove_featured_image" => __("Obriši preporučenu sliku", "text_domain") , 
+    "use_featured_image" => __("Koristi kao preporučenu sliku", "text_domain") , 
+    "insert_into_item" => __("Dodaj u ljubimca", "text_domain") , 
+    "uploaded_to_this_item" => __("Prenesi u ljubimca", "text_domain") , 
+    "items_list" => __("Lista ljubimaca", "text_domain") , 
+    "items_list_navigation" => __("Navigacijska lista ljubimaca", "text_domain") , 
+    "filter_items_list" => __("Filtrirana lista ljubimaca", "text_domain") , ];
+    $args = ["label" => __("ljubimac", "text_domain") , 
+    "description" => __("ljubimac", "text_domain") , 
+    "labels" => $labels, 
+    "supports" => ["title", "editor", 'thumbnail'], 
+    "taxonomies" => ["category"], 
+    "hierarchical" => false, 
+    "public" => true,
+    "show_ui" => true, 
+    "show_in_menu" => true, 
+    "menu_position" => 5, 
+    "show_in_admin_bar" => true, 
+    "show_in_nav_menus" => true, 
+    "can_export" => true,
+    "has_archive" => true, 
+    "exclude_from_search" => false, 
+    "publicly_queryable" => true, 
+    "capability_type" => 
+    "page", ];
+    register_post_type("ljubimac", $args);
 }
-add_action("init", "registriraj_recenziju_cpt", 0);
+add_action("init", "registriraj_ljubimca_cpt", 0);
+
+function registriraj_narudzba_cpt() {
+
+	/**
+	 * Post Type: Narudžbe.
+	 */
+
+	$labels = [
+		"name" => __( "Narudžbe", "VUV" ),
+		"singular_name" => __( "Narudžba", "VUV" ),
+		"menu_name" => __( "Narudžbe", "VUV" ),
+		"all_items" => __( "Sve narudžbe", "VUV" ),
+		"add_new" => __( "Dodaj novu narudžbu", "VUV" ),
+		"add_new_item" => __( "Dodaj novu narudžbu", "VUV" ),
+		"edit_item" => __( "Uredi narudžbu", "VUV" ),
+		"new_item" => __( "Nova narudžba", "VUV" ),
+		"view_item" => __( "Pregledaj narudžbu", "VUV" ),
+		"view_items" => __( "Pregledaj narudžbe", "VUV" ),
+		"search_items" => __( "Pretraži narudžbe", "VUV" ),
+		"not_found" => __( "Nije pronađena narudžba", "VUV" ),
+		"not_found_in_trash" => __( "Nema narudžbi u smeću", "VUV" ),
+		"parent" => __( "Roditelj narudžba:", "VUV" ),
+		"featured_image" => __( "Preporučena slika za narudžbu", "VUV" ),
+		"set_featured_image" => __( "Postavi preporučenu sliku za narudžbu", "VUV" ),
+		"remove_featured_image" => __( "Obriši preporučenu sliku za narudžbu", "VUV" ),
+		"use_featured_image" => __( "Koristi preporučenu sliku za narudžbu", "VUV" ),
+		"archives" => __( "Arhiva narudžbi", "VUV" ),
+		"insert_into_item" => __( "Dodaj u narudžbu", "VUV" ),
+		"uploaded_to_this_item" => __( "Prenesi na ovu narudžbu", "VUV" ),
+		"filter_items_list" => __( "Filtriraj narudžbe", "VUV" ),
+		"items_list_navigation" => __( "Navigacijska lista narudžbi", "VUV" ),
+		"items_list" => __( "Lista narudžbi", "VUV" ),
+		"attributes" => __( "Atributi narudžbi", "VUV" ),
+		"name_admin_bar" => __( "Narudžba", "VUV" ),
+		"item_published" => __( "Narudžba objavljena", "VUV" ),
+		"item_published_privately" => __( "Narudžba objavljena privatno.", "VUV" ),
+		"item_reverted_to_draft" => __( "Narudžba prebačena u skicu", "VUV" ),
+		"item_scheduled" => __( "Narudžba zakazana", "VUV" ),
+		"item_updated" => __( "Narudžba ažurirana", "VUV" ),
+		"parent_item_colon" => __( "Roditelj narudžba:", "VUV" ),
+
+	];
+
+	$args = [
+		"label" => __( "Narudžbe", "VUV" ),
+		"labels" => $labels,
+		"description" => "",
+		"public" => true,
+		"publicly_queryable" => true,
+		"show_ui" => true,
+		"show_in_rest" => true,
+		"rest_base" => "",
+		"rest_controller_class" => "WP_REST_Posts_Controller",
+		"has_archive" => false,
+		"show_in_menu" => true,
+		"show_in_nav_menus" => true,
+		"delete_with_user" => false,
+		"exclude_from_search" => false,
+		"capability_type" => "post",
+		"map_meta_cap" => true,
+		"hierarchical" => false,
+		"rewrite" => [ "slug" => "narudzba", "with_front" => true ],
+		"query_var" => true,
+		"supports" => [ "title" ],
+		"show_in_graphql" => false,
+	];
+
+	register_post_type( "narudzba", $args );
+}
+add_action( 'init', 'registriraj_narudzba_cpt' );
+/*
+        'capabilities' => array(
+            'create_posts' => 'do_not_allow'
+        ),
+*/
+
+// Register Custom Taxonomy
+function customertype_taxonomy_narudzba() {
+
+	$labels = array(
+		'name'                       => _x( 'Tip kupca', 'Taxonomy General Name', 'text_domain' ),
+		'singular_name'              => _x( 'Tip kupca', 'Taxonomy Singular Name', 'text_domain' ),
+		'menu_name'                  => __( 'Tip kupca', 'text_domain' ),
+		'all_items'                  => __( 'Svi tipovi kupaca', 'text_domain' ),
+		'parent_item'                => __( 'Roditeljska stavka', 'text_domain' ),
+		'parent_item_colon'          => __( 'Roditeljska stavka:', 'text_domain' ),
+		'new_item_name'              => __( 'Novi tip kupca', 'text_domain' ),
+		'add_new_item'               => __( 'Dodaj novi tip kupca', 'text_domain' ),
+		'edit_item'                  => __( 'Uredi tip kupca', 'text_domain' ),
+		'update_item'                => __( 'Ažuriraj tip kupca', 'text_domain' ),
+		'view_item'                  => __( 'Pregledaj tip kupca', 'text_domain' ),
+		'separate_items_with_commas' => __( 'Odvoji tipove kupaca zarezom', 'text_domain' ),
+		'add_or_remove_items'        => __( 'Dodaj ili ukloni tipove kupaca', 'text_domain' ),
+		'choose_from_most_used'      => __( 'Odaberi od najčešće korištenih tipova kupaca', 'text_domain' ),
+		'popular_items'              => __( 'Popularni tipovi kupaca', 'text_domain' ),
+		'search_items'               => __( 'Pretraži tipove kupaca', 'text_domain' ),
+		'not_found'                  => __( 'Nije pronađen', 'text_domain' ),
+		'no_terms'                   => __( 'Nema tipova kupaca', 'text_domain' ),
+		'items_list'                 => __( 'Lista tipova kupaca', 'text_domain' ),
+		'items_list_navigation'      => __( 'Navigacijska lista tipova kupaca', 'text_domain' ),
+	);
+	$args = array(
+		'labels'                     => $labels,
+		'hierarchical'               => true,
+		'public'                     => true,
+		'show_ui'                    => true,
+		'show_admin_column'          => true,
+		'show_in_nav_menus'          => true,
+		'show_tagcloud'              => true,
+	);
+	register_taxonomy( 'customertype', array( 'narudzba' ), $args );
+
+}
+add_action( 'init', 'customertype_taxonomy_narudzba', 0 );
+
+// Register Custom Taxonomy
+function country_taxonomy_narudzba() {
+
+	$labels = array(
+		'name'                       => _x( 'Država', 'Taxonomy General Name', 'text_domain' ),
+		'singular_name'              => _x( 'Država', 'Taxonomy Singular Name', 'text_domain' ),
+		'menu_name'                  => __( 'Država', 'text_domain' ),
+		'all_items'                  => __( 'Sve države', 'text_domain' ),
+		'parent_item'                => __( 'Roditeljska stavka', 'text_domain' ),
+		'parent_item_colon'          => __( 'Roditeljska stavka:', 'text_domain' ),
+		'new_item_name'              => __( 'Nova država', 'text_domain' ),
+		'add_new_item'               => __( 'Dodaj novu državu', 'text_domain' ),
+		'edit_item'                  => __( 'Uredi državu', 'text_domain' ),
+		'update_item'                => __( 'Ažuriraj državu', 'text_domain' ),
+		'view_item'                  => __( 'Pregledaj državu', 'text_domain' ),
+		'separate_items_with_commas' => __( 'Odvoji državu zarezom', 'text_domain' ),
+		'add_or_remove_items'        => __( 'Dodaj ili ukloni države', 'text_domain' ),
+		'choose_from_most_used'      => __( 'Odaberi od najčešće korištenih država', 'text_domain' ),
+		'popular_items'              => __( 'Popularne države', 'text_domain' ),
+		'search_items'               => __( 'Pretraži države', 'text_domain' ),
+		'not_found'                  => __( 'Nije pronađena', 'text_domain' ),
+		'no_terms'                   => __( 'Nema država', 'text_domain' ),
+		'items_list'                 => __( 'Lista država', 'text_domain' ),
+		'items_list_navigation'      => __( 'Navigacijska lista država', 'text_domain' ),
+	);
+	$args = array(
+		'labels'                     => $labels,
+		'hierarchical'               => true,
+		'public'                     => true,
+		'show_ui'                    => true,
+		'show_admin_column'          => true,
+		'show_in_nav_menus'          => true,
+		'show_tagcloud'              => true,
+	);
+	register_taxonomy( 'country', array( 'narudzba' ), $args );
+
+}
+add_action( 'init', 'country_taxonomy_narudzba', 0 );
+
+// Register Custom Taxonomy
+function status_taxonomy_narudzba() {
+
+	$labels = array(
+		'name'                       => _x( 'Status', 'Taxonomy General Name', 'text_domain' ),
+		'singular_name'              => _x( 'Status', 'Taxonomy Singular Name', 'text_domain' ),
+		'menu_name'                  => __( 'Status', 'text_domain' ),
+		'all_items'                  => __( 'Svi statusi', 'text_domain' ),
+		'parent_item'                => __( 'Roditeljska stavka', 'text_domain' ),
+		'parent_item_colon'          => __( 'Roditeljska stavka:', 'text_domain' ),
+		'new_item_name'              => __( 'Novi status', 'text_domain' ),
+		'add_new_item'               => __( 'Dodaj novi status', 'text_domain' ),
+		'edit_item'                  => __( 'Uredi status', 'text_domain' ),
+		'update_item'                => __( 'Ažuriraj status', 'text_domain' ),
+		'view_item'                  => __( 'Pregledaj status', 'text_domain' ),
+		'separate_items_with_commas' => __( 'Odvoji status zarezom', 'text_domain' ),
+		'add_or_remove_items'        => __( 'Dodaj ili ukloni status', 'text_domain' ),
+		'choose_from_most_used'      => __( 'Odaberi od najčešće korištenih statusa', 'text_domain' ),
+		'popular_items'              => __( 'Popularni statusi', 'text_domain' ),
+		'search_items'               => __( 'Pretraži statuse', 'text_domain' ),
+		'not_found'                  => __( 'Nije pronađen', 'text_domain' ),
+		'no_terms'                   => __( 'Nema statusa', 'text_domain' ),
+		'items_list'                 => __( 'Lista statusa', 'text_domain' ),
+		'items_list_navigation'      => __( 'Navigacijska lista statusa', 'text_domain' ),
+	);
+	$args = array(
+		'labels'                     => $labels,
+		'hierarchical'               => true,
+		'public'                     => true,
+		'show_ui'                    => true,
+		'show_admin_column'          => true,
+		'show_in_nav_menus'          => true,
+		'show_tagcloud'              => true,
+	);
+	register_taxonomy( 'status', array( 'narudzba' ), $args );
+
+}
+add_action( 'init', 'status_taxonomy_narudzba', 0 );
+
+# Dodavanje metabox-a
+function add_meta_box_order_info()
+{
+    add_meta_box("petshop_order", "Detalji narudžbe", "html_meta_box_order_info", "narudzba");
+}
+function html_meta_box_order_info($post)
+{
+    //wp_nonce_field("spremi_podatke_narudzbe", "artikl_kolicina_nonce");
+    //wp_nonce_field("spremi_podatke_", "artikl_cijena_nonce");
+    //dohvaćanje meta vrijednosti
+    //$kolicina_artikla = get_post_meta($post->ID, "kolicina_artikla", true);
+    //$cijena_artikla = get_post_meta($post->ID, "cijena_artikla", true);
+   
+    echo '
+			
+    <label for="fname">Ime:</label>
+    <input type="text" id="fname" name="fname" disabled><br><br>
+    <label for="lname">Prezime:</label>
+    <input type="text" id="lname" name="lname" disabled><br><br>
+    <label for="city">Grad:</label>
+    <input type="text" id="city" name="city" disabled><br><br>
+    <label for="street">Ulica:</label>
+    <input type="text" id="street" name="street" disabled><br><br>
+    <label for="streetnum">Kućni broj:</label>
+    <input type="text" id="streetnumber" name="streetnumber" disabled><br><br>
+    <label for="zipcode">Poštanski broj:</label>
+    <input type="text" id="zipcode" name="zipcode" disabled><br><br>
+    <label for="oib">OIB:</label>
+    <input type="text" id="oib" name="oib" disabled><br><br>
+    <label for="phonenumber">Broj mobitela:</label>
+    <input type="text" id="phonenumber" name="phonenumber" disabled><br><br>
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" disabled><br><br>
+    ';
+
+}
+add_action("add_meta_boxes", "add_meta_box_order_info");
+
+# Dodavanje metabox-a
+function add_meta_box_order_artikl()
+{
+    add_meta_box("petshop_order_artikl", "Odabrani artikli", "html_meta_box_order_artikl", "narudzba");
+}
+function html_meta_box_order_artikl($post)
+{
+    //wp_nonce_field("spremi_podatke_narudzbe", "artikl_kolicina_nonce");
+    //wp_nonce_field("spremi_podatke_", "artikl_cijena_nonce");
+    //dohvaćanje meta vrijednosti
+    //$kolicina_artikla = get_post_meta($post->ID, "kolicina_artikla", true);
+    //$cijena_artikla = get_post_meta($post->ID, "cijena_artikla", true);
+    $artikli = new WP_QUERY(array('post_type' => 'artikl'));
+    echo '<div>';
+    echo '<table style="border: 1px solid black; border-collapse: collapse;">
+    <tbody >
+    <tr>
+    <th style="border: 1px solid black; border-collapse: collapse;">ID artikla</th>
+    <th style="border: 1px solid black; border-collapse: collapse;">Naziv artikla</th>
+    <th style="border: 1px solid black; border-collapse: collapse;">Količina artikla</th>
+    <th style="border: 1px solid black; border-collapse: collapse;">Cijena artikla</th>
+    </tr>';
+    if ($artikli->have_posts()) :
+        while($artikli->have_posts()): $artikli->the_post();
+        echo '
+        <tr>
+        <td style="border: 1px solid black; border-collapse: collapse;">'. get_the_ID() . '</td>
+        <td style="border: 1px solid black; border-collapse: collapse;">'. get_the_title() . '</td>
+        <td style="border: 1px solid black; border-collapse: collapse;">'. 0 . '</td>
+        <td style="border: 1px solid black; border-collapse: collapse;">'. 0 . '</td>
+
+        </tr>';
+        endwhile;
+    endif;
+    echo '<tr>
+    <td style="border: 1px solid black; border-collapse: collapse;">Ukupno:</td>
+    <td style="border: 1px solid black; border-collapse: collapse;"></td>
+    <td style="border: 1px solid black; border-collapse: collapse;"></td>
+    <td style="border: 1px solid black; border-collapse: collapse;"></td>
+    </tr></tbody></table></div>';
+}
+add_action("add_meta_boxes", "add_meta_box_order_artikl");
+
+// The shortcode function
+function wp_shortcode_cart() { 
+ 
+    $string ='<div class="container bg-white"> 
+    <p class="text-center text-dark">Košarica</p>
+    
+    ';
+
+
+    $artikli = new WP_QUERY(array('post_type' => 'artikl'));
+    if ($artikli->have_posts()) :
+        while($artikli->have_posts()): $artikli->the_post();
+        //get_the_ID()
+        //get_the_title()
+        endwhile;
+    endif;
+    $string .= '</div>';
+    return $string; 
+     
+    }
+    // Register shortcode
+    add_shortcode('vuv_cart', 'wp_shortcode_cart'); 
+
+
+//Define AJAX URL
+function myplugin_ajaxurl() {
+        echo '<script type="text/javascript">var ajaxurl = "' . admin_url('admin-ajax.php') . '";</script>';
+}
+add_action('wp_head', 'myplugin_ajaxurl');
+ 
+ //The Javascript
+ function add_this_script_footer(){ ?>
+ <script> jQuery(document).ready(function($) {
+     $(document).ready(function(){
+        var artikli = localStorage.getItem('artikli');
+        if(artikli){
+            $.ajax({
+                url: ajaxurl, // Since WP 2.8 ajaxurl is always defined and points to admin-ajax.php
+                data: {
+                    'action':'example_ajax_request', // This is our PHP function below
+                    'artikli' : localStorage.getItem('artikli') // This is the variable we are sending via AJAX
+                },
+                success:function(data) {
+                    $(".articles").html(data);
+                },
+                error: function(errorThrown){
+                    console.log(errorThrown);
+                }
+            });
+        } else{
+            $(".articles").html('<div class="container text-center bg-white"><h1>Vaša košarica je prazna</h1></div>');
+        }
+     });
+ });
+ </script>
+ <?php }
+ add_action('wp_footer', 'add_this_script_footer');
+ 
+ //The PHP
+ function example_ajax_request() {
+     if ( isset($_REQUEST['artikli']) ) {
+         # Dohvaćanje sa requesta
+         $artikli = $_REQUEST['artikli'];
+         # Pretvaranje stringa u array
+         $arrayArtikala = explode(',',$artikli);
+         # Argumenti za query
+         $args = array( 'post__in' => $arrayArtikala, 'post_type' =>  'artikl', 'post_status' => 'publish', 'post_per_page' => -1); 
+         # Izvršavanje querya
+         $postslist = new WP_QUERY( $args );
+        #nacin testiranja: echo '<script>console.log('.json_encode($countries).');</script>';
+         echo '
+         <div class="container bg-white">
+         <main>
+           <div class="py-5 text-center">
+             <img class="d-block mx-auto mb-4" src="https://localhost/petshop/wp-content/uploads/2022/01/shopping-cart-clip-art-cart-removebg-preview.png" alt="" width="200" height="150">
+             <h2>Košarica</h2>
+             <p class="lead">U košarici se nalaze proizvodi koje ste prethodno dodali. Nakon narudžbe ukoliko ste dobro popunili sve podatke bi vam trebao stići email sa potvrdom narudžbe.</p>
+           </div>
+       
+           <div class="g-5">
+             <div class="col-md-5 col-lg-12 order-md-last">
+               <h4 class="d-flex justify-content-between align-items-center mb-3">
+                 <span class="text-primary">Artikli u košarici</span>
+                 <span class="badge bg-primary rounded-pill" id="cart_count">'.count($postslist->posts).'</span>
+               </h4>
+               <ul class="list-group mb-3"
+                
+               >';
+            # Prolazak kroz dobivene rezultate iz Query-a
+            $total_price = 0;
+                    while($postslist->have_posts()): $postslist->the_post();
+                    $rowpostid = get_the_ID();
+                    $rowpostprice = get_post_meta( $rowpostid, 'cijena_artikla', TRUE);
+                    $total_price += floatval($rowpostprice);
+                    echo ' <li class="list-group-item d-flex lh-sm" id="item_'.$rowpostid.'">
+                    <div class="me-auto p-2 bd-highlight align-self-center">
+                    '; echo the_post_thumbnail('thumbnail', array('style' => 'width:100px!important; height:100px!important;')); echo '
+                    <h6 class="">'.get_the_title().'</h6>
+                    </div>
+                    <div class="text-center bd-highlight d-flex flex-row-reverse bd-highlight align-self-center">
+                    <div class="ms-2">
+                    <button type="button" class="btn btn-danger rounded-circle" onclick="removeitemfromcart('.$rowpostid.')">X</button>
+                    </div>
+                    <div>
+                    <input type="number" class="form-control" style="width:75px;" id="amount" id="amount" placeholder="" onInput="myFunction(this, _'.$rowpostid.','.$rowpostprice.' )" onKeyDown="return false" value="1" min="1" max="'.get_post_meta( $rowpostid, 'kolicina_artikla', TRUE).'" required=""></input>
+                    <span class="text-muted" id="_'.$rowpostid.'">'.$rowpostprice.' kn</span>
+                    </div>
+                    </div>
+                    </li>';
+                    endwhile;
+               echo '<li>
+               <p id="totalprice">Cijena: '.$total_price.' kn</p>
+               </li>
+               </ul>
+             </div>
+             <div>
+               <h4 class="mb-3">Podaci za dostavu</h4>
+               <form class="needs-validation cartform" data-toggle="validator" data-js-form="getcartdata" novalidate="">
+               <div class="col-md-4">
+                 <label for="buyer_type" class="form-label">Vrsta kupca <span class="text-muted">*</span></label>
+                 <select class="form-select" id="buyer_type" required="">
+                   <option value="">Odaberi...</option>';
+                   $customertypes = get_terms(['taxonomy' => 'customertype', 'hide_empty' => false]);
+                   foreach ($customertypes as $customertype){
+                       echo '<option value='.$customertype->term_id.'>'.$customertype->name.'</option>';
+                   }
+                 echo '</select>
+                 <div class="invalid-feedback">
+                   Please provide a valid state.
+                 </div>
+               </div>
+                 <div class="row g-3">
+
+                   <div class="col-sm-6">
+                     <label for="firstName" class="form-label">Vaše ime <span class="text-muted">*</span></label>
+                     <input type="text" class="form-control" id="firstName" placeholder="John" value="" required="">
+                     <div class="invalid-feedback">
+                       Valid first name is required.
+                     </div>
+                   </div>
+       
+                   <div class="col-sm-6">
+                     <label for="lastName" class="form-label">Vaše prezime <span class="text-muted">*</span></label>
+                     <input type="text" class="form-control" id="lastName" placeholder="Wick" value="" required="">
+                     <div class="invalid-feedback">
+                       Valid last name is required.
+                     </div>
+                   </div>
+       
+                   <div class="col-12">
+                     <label for="city" class="form-label">Grad <span class="text-muted">*</span></label>
+                     <input type="emcity" class="form-control" id="city" placeholder="Virovitica" required>
+                     <div class="invalid-feedback">
+                       Please enter a valid email address for shipping updates.
+                     </div>
+                   </div>
+       
+                   <div class="col-12">
+                     <label for="address" class="form-label">Ulica <span class="text-muted">*</span></label>
+                     <input type="text" class="form-control" id="address" placeholder="Zagrebačka ulica" required="">
+                     <div class="invalid-feedback">
+                       Please enter your shipping address.
+                     </div>
+                   </div>
+       
+                   <div class="col-12">
+                     <label for="homenumber" class="form-label">Kučni broj <span class="text-muted">*</span></label>
+                     <input type="text" class="form-control" id="homenumber" placeholder="9" required="">
+                     <div class="invalid-feedback">
+                       Please enter your shipping address.
+                     </div>
+                   </div>
+       
+                   <div class="col-md-5">
+                     <label for="country" class="form-label">Država <span class="text-muted">*</span></label>
+                     <select class="form-select" id="country" required="">
+                       <option value="">Odaberi...</option>';
+                       $countries = get_terms(['taxonomy' => 'country', 'hide_empty' => false]);
+                        foreach ($countries as $country){
+                            echo '<option value='.$country->term_id.'>'.$country->name.'</option>';
+                        }
+                       echo '</select>
+                     <div class="invalid-feedback">
+                       Odaberite državu.
+                     </div>
+                   </div>
+       
+                   <div class="col-md-3">
+                     <label for="zip" class="form-label">Poštanski broj <span class="text-muted">*</span></label>
+                     <input type="text" class="form-control" id="zip" placeholder="" required="">
+                     <div class="invalid-feedback">
+                       Zip code required.
+                     </div>
+                   </div>
+                 </div>
+                 <div class="col-12">
+                 <label for="email" class="form-label">Email <span class="text-muted">*</span></label>
+                 <input type="email" class="form-control" id="email" name="email" placeholder="ime@domena.hr" required>
+                 <div class="invalid-feedback">
+                   Please enter a valid email address for shipping updates.
+                 </div>
+               </div>
+                 <hr class="my-4">
+       
+                 <h4 class="mb-3">Odabir načina plaćanja</h4>
+       
+                 <div class="my-3">
+                   <div class="form-check">
+                     <input id="onpickup" name="paymentMethod" type="radio" class="form-check-input" checked="" required="">
+                     <label class="form-check-label" for="credit">Prilikom preuzimanja</label>
+                   </div>
+                 </div>
+       
+                 <button class="w-100 btn btn-primary btn-lg" name="action" value="getcartdata">Naruči</button>
+               </form>
+             </div>
+           </div>
+         </main>
+       </div>'; // Kod buttna dodat type submit
+     }
+     // Always die in functions echoing AJAX content
+    die();
+ }
+ // This bit is a special action hook that works with the WordPress AJAX functionality.
+ add_action( 'wp_ajax_example_ajax_request', 'example_ajax_request' );
+ add_action( 'wp_ajax_nopriv_example_ajax_request', 'example_ajax_request' ); 
+
+
 
 # Dodavanje metabox-a
 function add_meta_box_artikl()
@@ -317,7 +865,9 @@ function filter_ajax()
             the_permalink();
             echo '">Prikaži više</a></p>';
             if(get_post_meta( get_the_ID(), "kolicina_artikla", TRUE)){
-                echo '<div class="mt-auto justify-content-between d-flex align-items-center"><a href="#" class="btn btn-primary btn-sm"><i class="fas fa-cart-plus"></i> Dodaj u košaricu</a><a class="">Cijena: ';
+                echo '<div class="mt-auto justify-content-between d-flex align-items-center"><button id="'.get_the_ID().'" onclick="alertMe(this, \'';
+                echo the_title();
+                echo '\')" class="btn btn-primary btn-sm"><i class="fas fa-cart-plus"></i> Dodaj u košaricu</button>'.'<a class="">Cijena: ';
                 echo get_post_meta( get_the_ID(), "cijena_artikla", TRUE);
                 echo ' kn</a></div>';
             } else{

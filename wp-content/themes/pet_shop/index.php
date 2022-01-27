@@ -2,7 +2,7 @@
 get_header();
 wp_head();
 ?>
-<div class="container narancasti_tekst">
+<div class="container">
     <?php the_content(); ?>
 </div>
 
@@ -10,12 +10,8 @@ wp_head();
 
 
 
-
-
-
-
-
 <?php
 get_footer();
+wp_footer();
 
 ?>
