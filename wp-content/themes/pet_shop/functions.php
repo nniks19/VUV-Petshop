@@ -1,5 +1,6 @@
 <?php
 require_once "class-wp-bootstrap-navwalker.php"; # Funkcionalnost izbornika sa bootstrapom
+
 #Inicijalizacija teme
 if (!function_exists("inicijaliziraj_temu"))
 {
@@ -198,15 +199,16 @@ function registriraj_narudzba_cpt() {
 		"query_var" => true,
 		"supports" => [ "title" ],
 		"show_in_graphql" => false,
+        'capabilities' => array(
+            'create_posts' => 'do_not_allow'
+        )
 	];
 
 	register_post_type( "narudzba", $args );
 }
 add_action( 'init', 'registriraj_narudzba_cpt' );
 /*
-        'capabilities' => array(
-            'create_posts' => 'do_not_allow'
-        ),
+
 */
 
 // Register Custom Taxonomy
@@ -333,50 +335,55 @@ function add_meta_box_order_info()
 }
 function html_meta_box_order_info($post)
 {
-    //wp_nonce_field("spremi_podatke_narudzbe", "artikl_kolicina_nonce");
-    //wp_nonce_field("spremi_podatke_", "artikl_cijena_nonce");
+    wp_nonce_field("spremi_podatke_narudzbe", "fname_nonce");
+    wp_nonce_field("spremi_podatke_narudzbe", "lname_nonce");
+    wp_nonce_field("spremi_podatke_narudzbe", "city_nonce");
+    wp_nonce_field("spremi_podatke_narudzbe", 'street_nonce');
+    wp_nonce_field("spremi_podatke_narudzbe", 'streetnumber_nonce');
+    wp_nonce_field("spremi_podatke_narudzbe", 'zipcode_nonce');
+    wp_nonce_field("spremi_podatke_narudzbe", 'oib_nonce');
+    wp_nonce_field("spremi_podatke_narudzbe", 'phonenumber_nonce');
+    wp_nonce_field("spremi_podatke_narudzbe", 'email_nonce');
+    wp_nonce_field("spremi_podatke_narudzbe", 'artikli_nonce');
+    wp_nonce_field("spremi_podatke_narudzbe", 'kolicine_nonce');
+    wp_nonce_field("spremi_podatke_narudzbe", 'cijene_nonce');
+
+
     //dohvaćanje meta vrijednosti
-    //$kolicina_artikla = get_post_meta($post->ID, "kolicina_artikla", true);
-    //$cijena_artikla = get_post_meta($post->ID, "cijena_artikla", true);
-   
+    $first_name = get_post_meta($post->ID, "fname", true);
+    $last_name = get_post_meta($post->ID, "lname", true);
+    $city = get_post_meta($post->ID, 'city', true);
+    $street = get_post_meta($post->ID, 'street', true);
+    $streetnumber = get_post_meta($post->ID, 'streetnumber', true);
+    $zipcode = get_post_meta($post->ID, 'zipcode', true);
+    $oib = get_post_meta($post->ID, 'oib', true);
+    $phone_number = get_post_meta($post->ID, 'phonenumber', true);
+    $email = get_post_meta($post->ID, 'email', true);
+    $artikliweb = get_post_meta($post->ID, 'artikli', true);
+    $artiklikol = explode(',',get_post_meta($post->ID, 'kolicine', true));
+    $artiklicij = explode(',',get_post_meta($post->ID, 'cijene', true));
+
     echo '
-			
     <label for="fname">Ime:</label>
-    <input type="text" id="fname" name="fname" disabled><br><br>
+    <input type="text" id="fname" name="fname" value="'.$first_name.'" disabled><br><br>
     <label for="lname">Prezime:</label>
-    <input type="text" id="lname" name="lname" disabled><br><br>
+    <input type="text" id="lname" name="lname" value="'.$last_name.'" disabled><br><br>
     <label for="city">Grad:</label>
-    <input type="text" id="city" name="city" disabled><br><br>
+    <input type="text" id="city" name="city" value="'.$city.'" disabled><br><br>
     <label for="street">Ulica:</label>
-    <input type="text" id="street" name="street" disabled><br><br>
+    <input type="text" id="street" name="street" value="'.$street.'" disabled><br><br>
     <label for="streetnum">Kućni broj:</label>
-    <input type="text" id="streetnumber" name="streetnumber" disabled><br><br>
+    <input type="text" id="streetnumber" name="streetnumber" value="'.$streetnumber.'" disabled><br><br>
     <label for="zipcode">Poštanski broj:</label>
-    <input type="text" id="zipcode" name="zipcode" disabled><br><br>
+    <input type="text" id="zipcode" name="zipcode" value="'.$zipcode.'" disabled><br><br>
     <label for="oib">OIB:</label>
-    <input type="text" id="oib" name="oib" disabled><br><br>
+    <input type="text" id="oib" name="oib" value="'.$oib.'" disabled><br><br>
     <label for="phonenumber">Broj mobitela:</label>
-    <input type="text" id="phonenumber" name="phonenumber" disabled><br><br>
+    <input type="text" id="phonenumber" name="phonenumber" value="'.$phone_number.'" disabled><br><br>
     <label for="email">Email:</label>
-    <input type="email" id="email" name="email" disabled><br><br>
+    <input type="email" id="email" name="email" value="'.$email.'" disabled><br><br>
     ';
-
-}
-add_action("add_meta_boxes", "add_meta_box_order_info");
-
-# Dodavanje metabox-a
-function add_meta_box_order_artikl()
-{
-    add_meta_box("petshop_order_artikl", "Odabrani artikli", "html_meta_box_order_artikl", "narudzba");
-}
-function html_meta_box_order_artikl($post)
-{
-    //wp_nonce_field("spremi_podatke_narudzbe", "artikl_kolicina_nonce");
-    //wp_nonce_field("spremi_podatke_", "artikl_cijena_nonce");
-    //dohvaćanje meta vrijednosti
-    //$kolicina_artikla = get_post_meta($post->ID, "kolicina_artikla", true);
-    //$cijena_artikla = get_post_meta($post->ID, "cijena_artikla", true);
-    $artikli = new WP_QUERY(array('post_type' => 'artikl'));
+    $artikli = new WP_QUERY(array('post_type' => 'artikl', 'post__in' =>explode(",",$artikliweb)));
     echo '<div>';
     echo '<table style="border: 1px solid black; border-collapse: collapse;">
     <tbody >
@@ -387,48 +394,180 @@ function html_meta_box_order_artikl($post)
     <th style="border: 1px solid black; border-collapse: collapse;">Cijena artikla</th>
     </tr>';
     if ($artikli->have_posts()) :
+        $counterkol = 0;
+        $total_kol = 0;
+        $total_cij = 0;
         while($artikli->have_posts()): $artikli->the_post();
+        $total_kol += (int) $artiklikol[$counterkol];
+        $total_cij += $artiklicij[$counterkol] * $artiklikol[$counterkol];
         echo '
         <tr>
         <td style="border: 1px solid black; border-collapse: collapse;">'. get_the_ID() . '</td>
         <td style="border: 1px solid black; border-collapse: collapse;">'. get_the_title() . '</td>
-        <td style="border: 1px solid black; border-collapse: collapse;">'. 0 . '</td>
-        <td style="border: 1px solid black; border-collapse: collapse;">'. 0 . '</td>
+        <td style="border: 1px solid black; border-collapse: collapse;">'. $artiklikol[$counterkol] . ' kom</td>
+        <td style="border: 1px solid black; border-collapse: collapse;">'. $artiklicij[$counterkol] * $artiklikol[$counterkol] . ' kn</td>
 
         </tr>';
+        $counterkol = $counterkol + 1;
         endwhile;
+        echo '<tr>
+        <td style="border: 1px solid black; border-collapse: collapse;">Ukupno:</td>
+        <td style="border: 1px solid black; border-collapse: collapse;"></td>
+        <td style="border: 1px solid black; border-collapse: collapse;">'.$total_kol.' kom</td>
+        <td style="border: 1px solid black; border-collapse: collapse;">'.$total_cij.' kn</td>
+        </tr></tbody></table>
+        <hr>
+        <h1 style="margin:0 auto; width:auto;display:block;"><b>Status narudžbe:
+        ';
+        $statusi = get_terms('status');
+        if (count($statusi) > 1){
+            array_shift($statusi);
+        }
+        foreach ($statusi as $status){
+            echo "|" . $status->name ."|";
+        }
+        echo'</b></h1>
+        </div>';
     endif;
-    echo '<tr>
-    <td style="border: 1px solid black; border-collapse: collapse;">Ukupno:</td>
-    <td style="border: 1px solid black; border-collapse: collapse;"></td>
-    <td style="border: 1px solid black; border-collapse: collapse;"></td>
-    <td style="border: 1px solid black; border-collapse: collapse;"></td>
-    </tr></tbody></table></div>';
+
 }
-add_action("add_meta_boxes", "add_meta_box_order_artikl");
-
-// The shortcode function
-function wp_shortcode_cart() { 
- 
-    $string ='<div class="container bg-white"> 
-    <p class="text-center text-dark">Košarica</p>
-    
-    ';
+add_action("add_meta_boxes", "add_meta_box_order_info");
 
 
-    $artikli = new WP_QUERY(array('post_type' => 'artikl'));
-    if ($artikli->have_posts()) :
-        while($artikli->have_posts()): $artikli->the_post();
-        //get_the_ID()
-        //get_the_title()
-        endwhile;
-    endif;
-    $string .= '</div>';
-    return $string; 
-     
+
+function spremi_podatke_narudzbe($post_id)
+{
+    $is_autosave = wp_is_post_autosave( $post_id );
+    $is_revision = wp_is_post_revision( $post_id );
+    $is_valid_nonce_fname = ( isset( $_POST[ 'fname_nonce' ] ) && wp_verify_nonce( $_POST[ 'fname_nonce' ], basename( __FILE__ ) ) ) ? 'true' : 'false';
+    $is_valid_nonce_lname = ( isset( $_POST[ 'lname_nonce' ] ) && wp_verify_nonce( $_POST[ 'lname_nonce' ], basename( __FILE__ ) ) ) ? 'true' : 'false';
+    $is_valid_nonce_city = ( isset( $_POST[ 'city_nonce' ] ) && wp_verify_nonce( $_POST[ 'city_nonce' ], basename( __FILE__ ) ) ) ? 'true' : 'false';
+    $is_valid_nonce_street = ( isset( $_POST[ 'street_nonce' ] ) && wp_verify_nonce( $_POST[ 'street_nonce' ], basename( __FILE__ ) ) ) ? 'true' : 'false';
+    $is_valid_nonce_streetnumber = ( isset( $_POST[ 'streetnumber_nonce' ] ) && wp_verify_nonce( $_POST[ 'streetnumber_nonce' ], basename( __FILE__ ) ) ) ? 'true' : 'false';
+    $is_valid_nonce_zipcode = ( isset( $_POST[ 'zipcode_nonce' ] ) && wp_verify_nonce( $_POST[ 'zipcode_nonce' ], basename( __FILE__ ) ) ) ? 'true' : 'false';
+    $is_valid_nonce_oib = ( isset( $_POST[ 'oib_nonce' ] ) && wp_verify_nonce( $_POST[ 'oib_nonce' ], basename( __FILE__ ) ) ) ? 'true' : 'false';
+    $is_valid_nonce_phonenumber = ( isset( $_POST[ 'phonenumber_nonce' ] ) && wp_verify_nonce( $_POST[ 'phonenumber_nonce' ], basename( __FILE__ ) ) ) ? 'true' : 'false';
+    $is_valid_nonce_email = ( isset( $_POST[ 'email_nonce' ] ) && wp_verify_nonce( $_POST[ 'email_nonce' ], basename( __FILE__ ) ) ) ? 'true' : 'false';
+    $is_valid_nonce_artikli = ( isset( $_POST[ 'artikli_nonce' ] ) && wp_verify_nonce( $_POST[ 'artikli_nonce' ], basename( __FILE__ ) ) ) ? 'true' : 'false';
+    $is_valid_nonce_kolicine = ( isset( $_POST[ 'kolicine_nonce' ] ) && wp_verify_nonce( $_POST[ 'kolicine_nonce' ], basename( __FILE__ ) ) ) ? 'true' : 'false';
+    $is_valid_nonce_cijene = ( isset( $_POST[ 'cijene_nonce' ] ) && wp_verify_nonce( $_POST[ 'cijene_nonce' ], basename( __FILE__ ) ) ) ? 'true' : 'false';
+
+    if ( $is_autosave || $is_revision || !$is_valid_nonce_fname || !$is_valid_nonce_lname || !$is_valid_nonce_city || !$is_valid_nonce_street || !$is_valid_nonce_streetnumber
+    || !$is_valid_nonce_zipcode || !$is_valid_nonce_oib || !$is_valid_nonce_phonenumber || !$is_valid_nonce_email 
+    || !$is_valid_nonce_artikli || !$is_valid_nonce_kolicine || !$is_valid_nonce_cijene)
+    {
+    return;
     }
-    // Register shortcode
-    add_shortcode('vuv_cart', 'wp_shortcode_cart'); 
+    // //fname
+    // if(!empty($_POST['fname']))
+    // {
+    // update_post_meta($post_id, 'fname', $_POST['fname']);
+    // }
+    // else
+    // {
+    // delete_post_meta($post_id, 'fname');
+    // }
+    // //lname
+    // if(!empty($_POST['lname']))
+    // {
+    // update_post_meta($post_id, 'lname', $_POST['lname']);
+    // }
+    // else
+    // {
+    // delete_post_meta($post_id, 'lname');
+    // }
+    // //city
+    // if(!empty($_POST['city']))
+    // {
+    // update_post_meta($post_id, 'city', $_POST['city']);
+    // }
+    // else
+    // {
+    // delete_post_meta($post_id, 'city');
+    // }
+    // //street
+    // if(!empty($_POST['street']))
+    // {
+    // update_post_meta($post_id, 'street', $_POST['street']);
+    // }
+    // else
+    // {
+    // delete_post_meta($post_id, 'street');
+    // }
+    // //streetnumber
+    // if(!empty($_POST['streetnumber']))
+    // {
+    // update_post_meta($post_id, 'streetnumber', $_POST['streetnumber']);
+    // }
+    // else
+    // {
+    // delete_post_meta($post_id, 'streetnumber');
+    // }
+    // //zipcode
+    // if(!empty($_POST['zipcode']))
+    // {
+    // update_post_meta($post_id, 'zipcode', $_POST['zipcode']);
+    // }
+    // else
+    // {
+    // delete_post_meta($post_id, 'zipcode');
+    // }
+    // //oib
+    // if(!empty($_POST['oib']))
+    // {
+    // update_post_meta($post_id, 'oib', $_POST['oib']);
+    // }
+    // else
+    // {
+    // delete_post_meta($post_id, 'oib');
+    // }
+    // //phonenumber
+    // if(!empty($_POST['phonenumber']))
+    // {
+    // update_post_meta($post_id, 'phonenumber', $_POST['phonenumber']);
+    // }
+    // else
+    // {
+    // delete_post_meta($post_id, 'phonenumber');
+    // }
+    // //email
+    // if(!empty($_POST['email']))
+    // {
+    // update_post_meta($post_id, 'email', $_POST['email']);
+    // }
+    // else
+    // {
+    // delete_post_meta($post_id, 'email');
+    // }
+    // //artikli
+    // if(!empty($_POST['artikli']))
+    // {
+    // update_post_meta($post_id, 'artikli', $_POST['artikli']);
+    // }
+    // else
+    // {
+    // delete_post_meta($post_id, 'artikli');
+    // }
+    // //kolicine
+    // if(!empty($_POST['kolicine']))
+    // {
+    // update_post_meta($post_id, 'kolicine', $_POST['kolicine']);
+    // }
+    // else
+    // {
+    // delete_post_meta($post_id, 'kolicine');
+    // }
+    // //cijene
+    // if(!empty($_POST['cijene']))
+    // {
+    // update_post_meta($post_id, 'cijene', $_POST['cijene']);
+    // }
+    // else
+    // {
+    // delete_post_meta($post_id, 'cijene');
+    // }
+}
+add_action( 'save_post', 'spremi_podatke_narudzbe');
 
 
 //Define AJAX URL
@@ -464,6 +603,7 @@ add_action('wp_head', 'myplugin_ajaxurl');
  </script>
  <?php }
  add_action('wp_footer', 'add_this_script_footer');
+
  
  //The PHP
  function example_ajax_request() {
@@ -477,7 +617,7 @@ add_action('wp_head', 'myplugin_ajaxurl');
          # Izvršavanje querya
          $postslist = new WP_QUERY( $args );
         #nacin testiranja: echo '<script>console.log('.json_encode($countries).');</script>';
-         echo '
+         echo '<div id="kosaricca">
          <div class="container bg-white">
          <main>
            <div class="py-5 text-center">
@@ -485,7 +625,7 @@ add_action('wp_head', 'myplugin_ajaxurl');
              <h2>Košarica</h2>
              <p class="lead">U košarici se nalaze proizvodi koje ste prethodno dodali. Nakon narudžbe ukoliko ste dobro popunili sve podatke bi vam trebao stići email sa potvrdom narudžbe.</p>
            </div>
-       
+           <form class="cartform" data-toggle="validator" data-js-form="getcartdata" novalidate="">
            <div class="g-5">
              <div class="col-md-5 col-lg-12 order-md-last">
                <h4 class="d-flex justify-content-between align-items-center mb-3">
@@ -503,7 +643,8 @@ add_action('wp_head', 'myplugin_ajaxurl');
                     $total_price += floatval($rowpostprice);
                     echo ' <li class="list-group-item d-flex lh-sm" id="item_'.$rowpostid.'">
                     <div class="me-auto p-2 bd-highlight align-self-center">
-                    '; echo the_post_thumbnail('thumbnail', array('style' => 'width:100px!important; height:100px!important;')); echo '
+                    '; echo the_post_thumbnail('thumbnail', array('style' => 'width:100px!important; height:100px!important;')); 
+                    echo '
                     <h6 class="">'.get_the_title().'</h6>
                     </div>
                     <div class="text-center bd-highlight d-flex flex-row-reverse bd-highlight align-self-center">
@@ -511,8 +652,8 @@ add_action('wp_head', 'myplugin_ajaxurl');
                     <button type="button" class="btn btn-danger rounded-circle" onclick="removeitemfromcart('.$rowpostid.')">X</button>
                     </div>
                     <div>
-                    <input type="number" class="form-control" style="width:75px;" id="amount" id="amount" placeholder="" onInput="myFunction(this, _'.$rowpostid.','.$rowpostprice.' )" onKeyDown="return false" value="1" min="1" max="'.get_post_meta( $rowpostid, 'kolicina_artikla', TRUE).'" required=""></input>
-                    <span class="text-muted" id="_'.$rowpostid.'">'.$rowpostprice.' kn</span>
+                    <input type="number" class="form-control" style="width:75px;" id="amount" name="amount_'.$rowpostid.'" placeholder="" onInput="myFunction(this, _'.$rowpostid.','.$rowpostprice.' )" onKeyDown="return false" value="1" min="1" max="'.get_post_meta( $rowpostid, 'kolicina_artikla', TRUE).'" required=""></input>
+                    <input type="hidden" id="pric_'.$rowpostid.'" name="price_'.$rowpostid.'" value='.$rowpostprice.'><span class="text-muted" id="_'.$rowpostid.'" name="price_'.$rowpostid.'">'.$rowpostprice.' kn</span></input>
                     </div>
                     </div>
                     </li>';
@@ -524,108 +665,92 @@ add_action('wp_head', 'myplugin_ajaxurl');
              </div>
              <div>
                <h4 class="mb-3">Podaci za dostavu</h4>
-               <form class="needs-validation cartform" data-toggle="validator" data-js-form="getcartdata" novalidate="">
+               
                <div class="col-md-4">
                  <label for="buyer_type" class="form-label">Vrsta kupca <span class="text-muted">*</span></label>
-                 <select class="form-select" id="buyer_type" required="">
+                 <select class="form-select" id="buyer_type" name="buyer_type" required>
                    <option value="">Odaberi...</option>';
                    $customertypes = get_terms(['taxonomy' => 'customertype', 'hide_empty' => false]);
                    foreach ($customertypes as $customertype){
-                       echo '<option value='.$customertype->term_id.'>'.$customertype->name.'</option>';
+                       echo '<option value="'.$customertype->name.'">'.$customertype->name.'</option>';
                    }
                  echo '</select>
-                 <div class="invalid-feedback">
-                   Please provide a valid state.
-                 </div>
                </div>
                  <div class="row g-3">
 
                    <div class="col-sm-6">
                      <label for="firstName" class="form-label">Vaše ime <span class="text-muted">*</span></label>
-                     <input type="text" class="form-control" id="firstName" placeholder="John" value="" required="">
-                     <div class="invalid-feedback">
-                       Valid first name is required.
-                     </div>
+                     <input type="text" class="form-control" id="firstName" name="firstName" placeholder="John" value="" required>
                    </div>
        
                    <div class="col-sm-6">
                      <label for="lastName" class="form-label">Vaše prezime <span class="text-muted">*</span></label>
-                     <input type="text" class="form-control" id="lastName" placeholder="Wick" value="" required="">
-                     <div class="invalid-feedback">
-                       Valid last name is required.
-                     </div>
+                     <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Wick" value="" required>
                    </div>
        
                    <div class="col-12">
                      <label for="city" class="form-label">Grad <span class="text-muted">*</span></label>
-                     <input type="emcity" class="form-control" id="city" placeholder="Virovitica" required>
-                     <div class="invalid-feedback">
-                       Please enter a valid email address for shipping updates.
-                     </div>
+                     <input type="text" class="form-control" id="city" name="city" placeholder="Virovitica" required>
                    </div>
+
+                   <div class="col-12">
+                   <label for="oib" class="form-label">Vaš OIB <span class="text-muted">*</span></label>
+                   <input type="text" class="form-control" id="oib" name="oib" placeholder="01329395827" value="" required>
+                 </div>
        
                    <div class="col-12">
                      <label for="address" class="form-label">Ulica <span class="text-muted">*</span></label>
-                     <input type="text" class="form-control" id="address" placeholder="Zagrebačka ulica" required="">
-                     <div class="invalid-feedback">
-                       Please enter your shipping address.
-                     </div>
+                     <input type="text" class="form-control" id="address" name="address" placeholder="Zagrebačka ulica" required>
                    </div>
        
                    <div class="col-12">
-                     <label for="homenumber" class="form-label">Kučni broj <span class="text-muted">*</span></label>
-                     <input type="text" class="form-control" id="homenumber" placeholder="9" required="">
-                     <div class="invalid-feedback">
-                       Please enter your shipping address.
-                     </div>
+                     <label for="homenumber" class="form-label">Kućni broj <span class="text-muted">*</span></label>
+                     <input type="text" class="form-control" id="homenumber" name="homenumber" placeholder="9" required>
                    </div>
        
                    <div class="col-md-5">
                      <label for="country" class="form-label">Država <span class="text-muted">*</span></label>
-                     <select class="form-select" id="country" required="">
+                     <select class="form-select" id="country" name="country" required>
                        <option value="">Odaberi...</option>';
                        $countries = get_terms(['taxonomy' => 'country', 'hide_empty' => false]);
                         foreach ($countries as $country){
-                            echo '<option value='.$country->term_id.'>'.$country->name.'</option>';
+                            echo '<option value="'.$country->name.'">'.$country->name.'</option>';
                         }
                        echo '</select>
-                     <div class="invalid-feedback">
-                       Odaberite državu.
-                     </div>
                    </div>
        
                    <div class="col-md-3">
                      <label for="zip" class="form-label">Poštanski broj <span class="text-muted">*</span></label>
-                     <input type="text" class="form-control" id="zip" placeholder="" required="">
-                     <div class="invalid-feedback">
-                       Zip code required.
-                     </div>
+                     <input type="text" class="form-control" id="zip" name="zip" placeholder="33410" required>
                    </div>
                  </div>
                  <div class="col-12">
+                 <label for="phonenum" class="form-label">Vaš broj mobitela <span class="text-muted">*</span></label>
+                 <input type="text" class="form-control" id="phonenum" name="phonenum" placeholder="+385993887712" value="" required>
+               </div>
+                 <div class="col-12">
                  <label for="email" class="form-label">Email <span class="text-muted">*</span></label>
                  <input type="email" class="form-control" id="email" name="email" placeholder="ime@domena.hr" required>
-                 <div class="invalid-feedback">
-                   Please enter a valid email address for shipping updates.
-                 </div>
                </div>
+               
                  <hr class="my-4">
        
                  <h4 class="mb-3">Odabir načina plaćanja</h4>
        
                  <div class="my-3">
                    <div class="form-check">
-                     <input id="onpickup" name="paymentMethod" type="radio" class="form-check-input" checked="" required="">
+                     <input id="onpickup" name="paymentMethod" type="radio" class="form-check-input" checked="" required>
                      <label class="form-check-label" for="credit">Prilikom preuzimanja</label>
                    </div>
                  </div>
-       
-                 <button class="w-100 btn btn-primary btn-lg" name="action" value="getcartdata">Naruči</button>
+                 <input type="hidden" name="action" value="get_cart_info">
+                 <input type="hidden" name="artikli" id="slanjeartikala" value="">
+                 <button type="submit" class="w-100 btn btn-primary btn-lg">Naruči</button>
                </form>
              </div>
            </div>
          </main>
-       </div>'; // Kod buttna dodat type submit
+       </div></div>';
      }
      // Always die in functions echoing AJAX content
     die();
@@ -747,6 +872,161 @@ function spremi_podatke_brenda($post_id)
 
 add_action("add_meta_boxes", "add_meta_box_brend");
 add_action("save_post", "spremi_podatke_brenda");
+
+function get_cart_info(){
+    $kolicine = array();
+    foreach (array_keys($_REQUEST) as $key){
+        if ( str_contains($key, 'amount_')){
+            array_push($kolicine, $_REQUEST[$key]);
+        }
+    }
+    $cijene = array();
+    foreach (array_keys($_REQUEST) as $key){
+        if ( str_contains($key, 'price_')){
+            array_push($cijene, $_REQUEST[$key]);
+        }
+    }
+    if ( isset($_REQUEST) ) {
+        $buyer_type = $_REQUEST['buyer_type'];
+        $firstName = $_REQUEST['firstName'];
+        $lastName = $_REQUEST['lastName'];
+        $oib = $_REQUEST['oib'];
+        $city = $_REQUEST['city'];
+        $address = $_REQUEST['address'];
+        $homenumber = $_REQUEST['homenumber'];
+        $phonenumber = $_REQUEST['phonenum'];
+        $country = $_REQUEST['country'];
+        $zip = $_REQUEST['zip'];
+        $email = $_REQUEST['email'];
+        $artikli = $_REQUEST['artikli'];
+        // insert the post and set the category
+        $post_id = wp_insert_post(array (
+            'post_type' => 'narudzba',
+            'post_title' => '',
+            'post_content' => '',
+            'post_status' => 'publish',
+            'comment_status' => 'closed',   // if you prefer
+            'ping_status' => 'closed',      // if you prefer
+        ));
+        $my_post = array(
+            'ID'           => $post_id,
+            'post_title'   => "Narudžba br: ".$post_id
+        );
+       
+      // Update the post into the database
+        wp_update_post( $my_post );
+    if ($post_id) {
+        // insert post meta
+        wp_set_object_terms( $post_id, $buyer_type, 'customertype' );
+        wp_set_object_terms( $post_id, $country, 'country' );
+        wp_set_object_terms( $post_id, 'Kreirana', 'status' );
+        add_post_meta($post_id, 'fname', $firstName);
+        add_post_meta($post_id, 'lname', $lastName);
+        add_post_meta($post_id, 'city', $city);
+        add_post_meta($post_id, 'street', $address);
+        add_post_meta($post_id, 'streetnumber', $homenumber);
+        add_post_meta($post_id, 'zipcode', $zip);
+        add_post_meta($post_id, 'oib', $oib);
+        add_post_meta($post_id, 'phonenumber', $phonenumber);
+        add_post_meta($post_id, 'email', $email);
+        add_post_meta($post_id, 'artikli', $artikli);
+        add_post_meta($post_id, 'kolicine', implode(',', $kolicine));
+        add_post_meta($post_id, 'cijene', implode(',', $cijene));
+        $artikliquery = new WP_QUERY(array('post_type' => 'artikl', 'post__in' =>explode(",",$artikli)));
+        $headers[] = 'Content-type: text/html; charset=utf-8';
+        $headers[] = 'From:' . "vuvpetshop@aol.com";
+        $poruka = '<b>Narudžba br.'.$post_id .'</b>
+        <div>
+            Ovaj email je potvrda da smo zaprimili Vašu narudžbu.
+        </div>
+        <div>
+            Artikli koje ste naručili:
+        </div>
+        <div>';
+        $poruka .= '<table style="border: 1px solid black; border-collapse: collapse;">
+        <tbody >
+        <tr>
+        <th style="border: 1px solid black; border-collapse: collapse;">ID artikla</th>
+        <th style="border: 1px solid black; border-collapse: collapse;">Naziv artikla</th>
+        <th style="border: 1px solid black; border-collapse: collapse;">Količina artikla</th>
+        <th style="border: 1px solid black; border-collapse: collapse;">Cijena artikla</th>
+        </tr>';
+        if ($artikliquery->have_posts()) :
+            $artiklikol = $kolicine;
+            $artiklicij = $cijene; 
+            $counterkol = 0;
+            $total_kol = 0;
+            $total_cij = 0;
+            while($artikliquery->have_posts()): $artikliquery->the_post();
+            $total_kol += (int) $artiklikol[$counterkol];
+            $total_cij += $artiklicij[$counterkol] * $artiklikol[$counterkol];
+            $poruka .= '
+            <tr>
+            <td style="border: 1px solid black; border-collapse: collapse;">'. get_the_ID() . '</td>
+            <td style="border: 1px solid black; border-collapse: collapse;">'. get_the_title() . '</td>
+            <td style="border: 1px solid black; border-collapse: collapse;">'. $artiklikol[$counterkol] . ' kom</td>
+            <td style="border: 1px solid black; border-collapse: collapse;">'. $artiklicij[$counterkol] * $artiklikol[$counterkol] . ' kn</td>
+    
+            </tr>';
+            $counterkol = $counterkol + 1;
+            endwhile;
+            $poruka .= '<tr>
+            <td style="border: 1px solid black; border-collapse: collapse;">Ukupno:</td>
+            <td style="border: 1px solid black; border-collapse: collapse;"></td>
+            <td style="border: 1px solid black; border-collapse: collapse;">'.$total_kol.' kom</td>
+            <td style="border: 1px solid black; border-collapse: collapse;">'.$total_cij.' kn</td>
+            </tr></tbody></table>
+            <hr>
+            <h1 style="margin:0 auto; width:auto;display:block;"><b>Status narudžbe:
+            ';
+            $statusi = get_terms('status');
+            if (count($statusi) > 1){
+                array_shift($statusi);
+            }
+            foreach ($statusi as $status){
+                $poruka .= "|" . $status->name ."|";
+            }
+            $poruka .='</b></h1>
+            </div>';
+        endif;
+        $poruka .='</div>
+        <div>
+        Podaci koje ste upisali pri naručivanju:
+        <b><p>Ime</b> '.$firstName.'</p>
+        <b><p>Prezime</b> '.$lastName.'</p>
+        <b><p>Mjesto</b> '.$city.'</p>
+        <b><p>Vaš OIB</b> '.$oib.'</p>
+        <b><p>Ulica</b> '.$address.'</p>
+        <b><p>Kućni broj</b> '.$homenumber.'</p>
+        <b><p>Poštanski broj</b> '.$zip.'</p>
+        <b><p>Vaš broj mobitela</b> '.$phonenumber.'</p>
+        <b><p>Email</b> '.$email.'</p>
+        <br>
+        <p>Ukoliko imate bilo kakvih dodatnih pitanja možete nam se javiti na ovaj email.</p>
+        <p>Ukoliko je bilo koji od navedenih podataka netočan javite nam se što prije da ispravimo taj dio.</p>
+        <p>Za nekoliko dana ćemo se javiiti na vaš email i dostaviti vam broj za praćenje pošiljke.</p>
+        <p>Budući da smo novi Webshop prvu godinu dana (1.1.2022. do 1.2.2023.) Vas častimo sa besplatnom poštarinom za bilo koje narudžbe!</p>
+
+        Lijep pozdrav,
+
+        VUV PETSHOP Team
+        </div>
+        ';
+        wp_mail( $email, "Narudžba - PETSHOP", $poruka, $headers);
+        $array_artikala_id = explode(',',$artikli);
+        for($i = 0; $i < count($array_artikala_id); ++$i) {
+            $prosla_kolicina =  intval(get_post_meta( $array_artikala_id[$i], 'kolicina_artikla', TRUE));
+            $narucena_kolicina = intval($kolicine[$i]);
+            $razlika = $prosla_kolicina - $narucena_kolicina;
+            update_post_meta( $array_artikala_id[$i], 'kolicina_artikla',  $razlika);
+        }
+
+    }
+    }
+    die();
+}
+add_action('wp_ajax_nopriv_get_cart_info', 'get_cart_info'); // Kad je korisnik prijavljen
+add_action('wp_ajax_get_cart_info', 'get_cart_info'); // Kad korisnik nije prijavljen
 
 function filter_ajax()
 {
@@ -882,7 +1162,9 @@ function filter_ajax()
             }
         endwhile;
     else:
-        echo '<div class="text-center bg-white mt-4">Ne postoji niti jedan artikl sa odabranim kriterijima!</div>';
+        echo '<div class="alert alert-warning text-center" role="alert">
+        Nema rezultata!<i class="fas fa-search"></i>
+      </div>';
     endif;
 
     
@@ -939,5 +1221,27 @@ function load_scripts()
 }
 
 add_action('wp_enqueue_scripts', 'load_scripts');
+
+define( 'SMTP_HOST', 'smtp.aol.com' );  // A2 Hosting server name. For example, "a2ss10.a2hosting.com"
+define( 'SMTP_AUTH', true );
+define( 'SMTP_PORT', '465' );
+define( 'SMTP_SECURE', 'ssl' );
+define( 'SMTP_USERNAME', 'vuvpetshop@aol.com' );  // Username for SMTP authentication
+define( 'SMTP_PASSWORD', 'hcwnmtkiscvqskum' );          // Password for SMTP authentication
+define( 'SMTP_FROM',     'vuvpetshop@aol.com' );  // SMTP From address
+define( 'SMTP_FROMNAME', 'VUV Petshop' );         // SMTP From name
+
+add_action( 'phpmailer_init', 'send_smtp_email' );
+function send_smtp_email( $phpmailer ) {
+    $phpmailer->isSMTP();
+    $phpmailer->Host       = SMTP_HOST;
+    $phpmailer->SMTPAuth   = SMTP_AUTH;
+    $phpmailer->Port       = SMTP_PORT;
+    $phpmailer->SMTPSecure = SMTP_SECURE;
+    $phpmailer->Username   = SMTP_USERNAME;
+    $phpmailer->Password   = SMTP_PASSWORD;
+    $phpmailer->From       = SMTP_FROM;
+    $phpmailer->FromName   = SMTP_FROMNAME;
+}
 
 ?>

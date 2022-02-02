@@ -1,10 +1,10 @@
 (function($){
     $(document).ready(function(){
-        
         $(document).on('submit', '[data-js-form=filter]', function(e){
             e.preventDefault(); // Vise ne osvjezava stranicu kad stisnem na filter
             
             var data = $(this).serialize();
+
             $.ajax({
                 url: wpAjax.ajaxUrl,
                 data: data,
@@ -22,24 +22,136 @@
         $(document).on('submit', '[data-js-form=getcartdata]', function(e){
             e.preventDefault();
             var data = $(this).serialize();
-            console.log(data);
-            alert("as");
+            if(cartValidation()){
             $.ajax({
-                url: wpAjax.ajaxUrl,
-                data: data,
-                type: 'post',
-                success: function(result){
-                    $('[data-js-form=getcartdata]').html(result);
-                },
-                error: function(result){
-                    //console.log(result);
-                }
+                    url: wpAjax.ajaxUrl,
+                    data: data + localStorage.getItem('artikli'),
+                    type: 'post',
+                    success: function(result){
+                        localStorage.removeItem('artikli');
+                        $('#kosaricca').html('<div class="alert alert-success container text-center" role="alert"><h4 class="alert-heading">Narudžba zaprimljena!</h4><p>Uskoro će vam stići email sa detaljima i potvrdom narudžbe</p><hr><p class="mb-0">Hvala vam na Vašoj kupnji i povjerenju!</p></div>');
+                    },
+                    error: function(result){
+                        console.log(result);
+                    }
             });
+            }
+            
         });
         
     });
 })(jQuery);
 
+function cartValidation(){
+    allvalid = true;
+    if (buyertypeValidation() == false){
+        allvalid=false;
+    }
+    else if (nameValidation() == false){
+        allvalid = false;
+    }
+    else if (lastnameValidation() == false){
+        allvalid = false;
+    }
+    else if (citynameValidation() == false){
+        allvalid = false;
+    } else if (oibValidation() == false){
+        allvalid=false;}
+    else if (addressValidation() == false){
+        allvalid = false;
+    }
+    else if (homenumberValidation() == false){
+        allvalid = false;
+    } 
+    else if (countryValidation() == false){
+        allvalid=false;
+    }    
+    else if (zipValidation() == false){
+        allvalid=false;
+    }else if (phonenumValidation() == false){
+        allvalid=false;
+    }
+    else if (emailValidation() == false){
+        allvalid=false;
+    }
+
+    return allvalid;
+}
+function buyertypeValidation(){
+    if (!$('#buyer_type').val()) {
+        alert('Obavezan je odabir vrste kupca!');
+        return false;
+    }
+}
+function nameValidation(){
+    if (!$('#firstName').val()) {
+        alert('Unesite svoje ime!');
+        return false;
+    }
+}
+function lastnameValidation(){
+    if (!$('#lastName').val()) {
+        alert('Unesite svoje prezime!');
+        return false;
+    }
+}
+function citynameValidation(){
+    if (!$('#city').val()) {
+        alert('Unesite Vaš grad!');
+        return false;
+    }
+}
+function addressValidation(){
+    if (!$('#address').val()) {
+        alert('Unesite Vašu ulicu!');
+        return false;
+    }
+}
+function homenumberValidation(){
+    if (!$('#homenumber').val()) {
+        alert('Unesite Vaš kućni broj!');
+        return false;
+    }
+}
+function countryValidation(){
+    if (!$('#country').val()) {
+        alert('Unesite državu iz koje dolazite!');
+        return false;
+    }
+}
+function zipValidation(){
+    if (!$('#zip').val()) {
+        alert('Unesite poštanski broj mjesta iz kojeg dolazite!');
+        return false;
+    }
+}
+function emailValidation(){
+    if (!$('#email').val()) {
+        alert('Unesite vašu email adresu!');
+        return false;
+    }else {
+        if(!isEmail($('#email').val())){
+            alert("Email adresa nije dobroga formata");
+            return false;
+        }
+    }
+}
+function isEmail(email) {
+    var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    return regex.test(email);
+  }
+function oibValidation(){
+    if (!$('#oib').val()) {
+        alert('Unesite OIB!');
+        return false;
+    }
+}
+function phonenumValidation(){
+    if (!$('#phonenum').val()) {
+        alert('Unesite broj mobitela!');
+        return false;
+    }
+}
 
 $("#min-price").on("change mousemove", function () {
     min_price = parseInt($("#min-price").val());
