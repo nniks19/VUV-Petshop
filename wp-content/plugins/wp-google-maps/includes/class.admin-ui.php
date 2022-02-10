@@ -78,6 +78,13 @@ class Admin extends \WPGMZA\Factory
 				$document->loadPHPFile(WPGMZA_PLUGIN_DIR_PATH . 'html/credits.html.php');
 				echo $document->html;
 				break;
+
+			case "newsletter_opt_in":
+				/* This block only runs if the user opts-in to the newsletter */
+				$document = new \WPGMZA\DOMDocument();
+				$document->loadPHPFile(WPGMZA_PLUGIN_DIR_PATH . 'html/newsletter-opt-in.html.php');
+				echo $document->html;
+				break;
 				
 			default:
 				

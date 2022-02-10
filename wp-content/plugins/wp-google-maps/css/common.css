@@ -272,6 +272,7 @@
 {
 	position: relative;
 	font-size: 1.5em;
+	cursor: pointer;
 }
 
 .wpgmza-rating-stars-container + .wpgmza-num-ratings

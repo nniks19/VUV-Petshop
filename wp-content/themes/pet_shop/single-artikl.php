@@ -15,11 +15,11 @@ wp_head();
     <?php echo '<div>Cijena: ' . get_post_meta ( $post->ID, 'cijena_artikla', TRUE) . ' kn</div><br>'; ?>
     <?php
     if(get_post_meta( $post->ID, 'kolicina_artikla', TRUE)){
-        echo 'Kolicina: '. get_post_meta( $post->ID, 'kolicina_artikla', TRUE )[0]; 
+        echo 'Kolicina: '. get_post_meta( $post->ID, 'kolicina_artikla', TRUE ); 
         echo ' kom';
-        echo '<div class="mt-auto justify-content-between d-flex align-items-center"><button id="'.$post->ID.'" onclick="alertMe(this, \'';
+        echo '<div class="mt-auto justify-content-center d-flex align-items-center"><button id="'.$post->ID.'" onclick="alertMe(this, \'';
         echo the_title();
-        echo '\')" class="btn btn-primary btn-sm"><i class="fas fa-cart-plus"></i> Dodaj u košaricu</button>'.'<a class="">Cijena: ' . get_post_meta( $post->ID, 'cijena_artikla', TRUE). ' kn</a>'.'</div>';
+        echo '\')" class="btn btn-primary btn-sm"><i class="fas fa-cart-plus"></i> Dodaj u košaricu</button></div>';
     } else{
         echo '<div><b>Proizvod trenutno nije dostupan!</b></div>';
     }

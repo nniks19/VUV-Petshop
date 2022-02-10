@@ -568,7 +568,7 @@ class RestAPI extends Factory
 				$subclasses				= Feature::getSubclasses();
 				$types					= array_map(function($str) { return strtolower($str) . 's'; }, $subclasses);
 				$result					= array(
-					'request'			=> $params
+					'request'			=> $this->cleanRequestOutput($params)
 				);
 
 				
@@ -956,5 +956,16 @@ class RestAPI extends Factory
 		$now = new \DateTime();
 		
 		update_option('wpgmza_last_rest_api_blocked', $now->format(\DateTime::ISO8601));
+	}
+
+	public function cleanRequestOutput($requestData){
+		if(!empty($requestData) && is_array($requestData)){
+			foreach($requestData as $key => $value){
+				if(is_string($value)){
+					$requestData[$key] = sanitize_text_field($value);
+				}
+			}
+		}
+		return $requestData;
 	}
 }

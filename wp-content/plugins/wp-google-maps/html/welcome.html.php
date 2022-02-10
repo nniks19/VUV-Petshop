@@ -30,6 +30,39 @@ printf(__("Welcome to WP Google Maps version %s","wp-google-maps"), $wpgmza->get
 
 </h2>
 
+    <div id="wpgmza-support__row" class="feature-section three-col">
+        <div class='col wpgmza-support__col wpgmza-margin-0'>
+            <div class="wpgmza-card">
+                <h4><?php _e("Facebook Group","wp-google-maps"); ?></h4>
+                <p><?php _e("Join our Facebook Community","wp-google-maps"); ?></p>
+
+                <a href="https://www.facebook.com/groups/wpgooglemaps" class="button-primary" target="_BLANK"><?php _e("Join Facebook", "wp-google-maps"); ?></a>
+                <br><br>
+                <small style="opacity: 0.8;"><?php _e("Get to know other WP Google Maps users, receive updates on upcoming features, and share your maps with the community", "wp-google-maps"); ?></small>
+            </div>
+        </div>
+        <div class='col wpgmza-support__col wpgmza-margin-0'>
+            <div class="wpgmza-card">
+                <h4><?php _e("Reddit","wp-google-maps"); ?></h4>
+                <p><?php _e("Join our Reddit Community","wp-google-maps"); ?></p>
+                
+                <a href="https://www.reddit.com/r/wpgooglemaps/" class="button-primary" target="_BLANK"><?php _e("Join Subreddit", "wp-google-maps"); ?></a>
+                <br><br>
+                <small style="opacity: 0.8;"><?php _e("Share your maps, speak to the development team, receive updates on upcoming features, and view release specific changelogs", "wp-google-maps"); ?></small>                
+            </div>
+        </div>
+        <div class='col wpgmza-support__col wpgmza-margin-0'>
+            <div class="wpgmza-card">
+                <h4><?php _e("Newsletters","wp-google-maps"); ?></h4>
+                <p><?php _e("Receive specials, guides and latest news", "wp-google-maps"); ?></p>
+
+                <a href="admin.php?page=wp-google-maps-menu&amp;action=newsletter_opt_in" class="button-primary" target="_BLANK"><?php _e("Join Newsletter", "wp-google-maps"); ?></a>
+                <br><br>
+                <small style="opacity: 0.8;"><?php printf(__("* Clicking this button will send your email address (%s) to our server and automatically sign you up to the newsletter","wp-google-maps"), get_option('admin_email')); ?></small>
+            </div>
+        </div>
+    </div>
+
     <div class="wpgmza-flex feature-section two-col">
         <div class="col wpgmza-flex-grid__item">
             <div class="wpgmza-card">

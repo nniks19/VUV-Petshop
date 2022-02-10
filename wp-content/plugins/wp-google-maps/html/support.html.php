@@ -92,6 +92,8 @@
 				<p><?php _e("Still need help? Use one of these links below.","wp-google-maps"); ?></p>
 				<ul>
 					<li><a href='https://www.wpgmaps.com/forums/' target='_BLANK' title='<?php _e("Support forum","wp-google-maps"); ?>'><?php _e("Support forum","wp-google-maps"); ?></a></li>
+					<li><a href='https://www.facebook.com/groups/wpgooglemaps' target='_BLANK' title='<?php _e("Support forum","wp-google-maps"); ?>'><?php _e("Facebook Community","wp-google-maps"); ?></a></li>
+					<li><a href='https://www.reddit.com/r/wpgooglemaps/' target='_BLANK' title='<?php _e("Support forum","wp-google-maps"); ?>'><?php _e("Reddit Community","wp-google-maps"); ?></a></li>
 					<li><a href='https://www.wpgmaps.com/contact-us/' target='_BLANK' title='<?php _e("Contact us","wp-google-maps"); ?>'><?php _e("Contact us","wp-google-maps"); ?></a></li>
 				</ul>
 			</div>

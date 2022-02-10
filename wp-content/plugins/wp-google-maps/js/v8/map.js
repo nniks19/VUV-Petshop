@@ -57,6 +57,13 @@ jQuery(function($) {
 		this.polylines = [];
 		this.circles = [];
 		this.rectangles = [];
+
+		// GDPR
+		if(WPGMZA.googleAPIStatus && WPGMZA.googleAPIStatus.code == "USER_CONSENT_NOT_GIVEN") {
+			$(element).append($(WPGMZA.api_consent_html));
+			$(element).css({height: "auto"});
+			return;
+		}
 		
 		this.loadSettings(options);
 		
@@ -79,13 +86,6 @@ jQuery(function($) {
 		
 		// Init marker filter
 		this.markerFilter = WPGMZA.MarkerFilter.createInstance(this);
-		
-		// GDPR
-		
-		if(WPGMZA.googleAPIStatus && WPGMZA.googleAPIStatus.code == "USER_CONSENT_NOT_GIVEN") {
-			$(element).append($(WPGMZA.api_consent_html));
-			$(element).css({height: "auto"});
-		}
 		
 		// Initialisation
 		this.on("init", function(event) {
@@ -400,7 +400,7 @@ jQuery(function($) {
 				filter.offset = offset;
 				filter.limit = limit;
 				
-				data = this.getRESTParameters({
+				data = self.getRESTParameters({
 					filter: JSON.stringify(filter)
 				});
 				

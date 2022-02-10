@@ -3,9 +3,9 @@ Contributors: WPGMaps, NickDuncan, CodeCabin_, DylanAuty
 Donate link: https://www.wpgmaps.com
 Tags: google maps, maps, map, map markers, google map, google maps plugin, wp google maps, wp google map, map plugin, store locator, google map plugin, map widget, open layers, elementor map
 Requires at least: 3.5
-Tested up to: 5.8
+Tested up to: 5.9
 Requires PHP: 5.3
-Stable tag: 8.1.19
+Stable tag: 8.1.20
 License: GPLv2
 
 The easiest to use Google maps plugin! Create a custom Google map, store locator or map widget with high quality markers containing categories, descriptions, images and links.
@@ -199,6 +199,9 @@ To add your map to your widgets area, simply go to Appearance->Widgets and drag 
 
 == Upgrade Notice ==
 
+= 8.1.20 =
+Please update to 8.1.20 or above to ensure you are using the latest security enhancements.
+
 = 8.1.18 =
 Please update to 8.1.18 or above to ensure you are using the latest security enhancements.
 
@@ -224,6 +227,16 @@ Please update to 7.11.18 or above to ensure you are using the latest security en
 Please update your WP Google Maps version to 6.3.15 to ensure you are using the latest security enhancements.
 
 == Changelog ==
+
+= 8.1.20 - 2022-02-03 =
+* Fixed issue where GDPR notice would not appear in some installation when using OpenLayers
+* Fixed issue where traditional Chinese language would not work with DataTables (Encoding issue) 
+* Fixed issue where erroneous marker read error would be thrown on some installations
+* Added Facebook, Reddit and Newsletter Links (Opt-in) to welcome and support page
+* Updated de_DE translation file (Thanks to michik1712)
+* Improved REST API request response sanitization
+* Improved experimental  batch loader, feature not available by default (beta)
+* Tested up to WordPress 5.9 
 
 = 8.1.19 - 2021-12-09 =
 * Added simple API key creation link to improve the process of getting a key setup

@@ -419,10 +419,7 @@ function html_meta_box_order_info($post)
         <hr>
         <h1 style="margin:0 auto; width:auto;display:block;"><b>Status narudžbe:
         ';
-        $statusi = get_terms('status');
-        if (count($statusi) > 1){
-            array_shift($statusi);
-        }
+        $statusi = get_the_terms($post->ID, 'status');
         foreach ($statusi as $status){
             echo "|" . $status->name ."|";
         }
@@ -1226,9 +1223,9 @@ define( 'SMTP_HOST', 'smtp.aol.com' );  // A2 Hosting server name. For example, 
 define( 'SMTP_AUTH', true );
 define( 'SMTP_PORT', '465' );
 define( 'SMTP_SECURE', 'ssl' );
-define( 'SMTP_USERNAME', 'vuvpetshop@aol.com' );  // Username for SMTP authentication
-define( 'SMTP_PASSWORD', 'hcwnmtkiscvqskum' );          // Password for SMTP authentication
-define( 'SMTP_FROM',     'vuvpetshop@aol.com' );  // SMTP From address
+define( 'SMTP_USERNAME', 'vuvpetshopp@aol.com' );  // Username for SMTP authentication
+define( 'SMTP_PASSWORD', 'cvxktjoveguuysyy' );          // Password for SMTP authentication
+define( 'SMTP_FROM',     'vuvpetshopp@aol.com' );  // SMTP From address
 define( 'SMTP_FROMNAME', 'VUV Petshop' );         // SMTP From name
 
 add_action( 'phpmailer_init', 'send_smtp_email' );

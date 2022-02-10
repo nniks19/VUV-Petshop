@@ -44,7 +44,9 @@
            }
     endwhile;
 else:
-    echo '<div class="text-center">Odabrana kategorija nema artikala!</div>';
+    echo '<div class="text-center" role="alert">
+    Ova kategorija nema artikala!<i class="fas fa-search"></i>
+  </div>';
 endif;
 
     echo '</section> </div> </div>';

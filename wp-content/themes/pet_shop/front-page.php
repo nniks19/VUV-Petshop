@@ -1,7 +1,9 @@
+<title>VUV Petshop</title>
 <?php
    get_header();
    wp_head(); 
    ?>
+
 <div class="container mt-1">
    <div class="row">
    <div class="col-md-3 h-50 bg-white rounded-3">
@@ -21,14 +23,18 @@
                                'taxonomy' => 'category',
                                'order' =>'ASC',
                                'orderby'=>'title',
-                               'hide_empty' => false,
+                               'parent' => 0
                            ) );
+
                            ?>
                         <select data-css-form="input select" id="artikl-kategorija" name="artikl-kategorija">
                            <option>Odaberi kategoriju</option>
                            <?php foreach($kategorije as $kategorija) : ?>
-                           <option value="<?= $kategorija->term_id; ?>"><?= $kategorija->name; ?></option>
-                           <?php endforeach; ?>
+                              <option  style="font-weight: bold" value="<?= $kategorija->term_id; ?>"><?= $kategorija->name; ?></option>
+                              <?php $subkategorije = get_categories( [ 'parent'=> $kategorija->term_id ,'hide_empty' => 0,] );
+                              foreach($subkategorije as $subkategorija): ?>
+                                 <option value="<?= $subkategorija->term_id; ?>"><?php echo  str_repeat('&nbsp;', 5) . "•" .$subkategorija->name; ?></option>
+                           <?php endforeach; endforeach; ?>
                         </select>
                      </fieldset>
                      <fieldset data-css-form="group">

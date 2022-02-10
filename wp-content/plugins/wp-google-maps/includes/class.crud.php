@@ -76,15 +76,16 @@ class Crud extends Factory implements \IteratorAggregate, \JsonSerializable
 		
 		$this->id = $id;
 		
-		if($read_mode != Crud::BULK_READ)
-		{
-			if($this->id == -1)
+		if($read_mode != Crud::BULK_READ){
+			if($this->id == -1){
 				$this->create();
-			else
-				$this->read(Marker::SINGLE_READ);
-		}
-		else
-		{
+			} else {
+				if(!empty($this->id)){
+					// Only attempt a read if not empty as this can lead to erroneous error being thrown
+					$this->read(Marker::SINGLE_READ);
+				}
+			}
+		} else {
 			$arbitraryDataColumnName = $this->get_arbitrary_data_column_name();
 			
 			if(!empty($arbitraryDataColumnName) && !empty($this->fields[$arbitraryDataColumnName]))
