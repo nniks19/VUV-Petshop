@@ -6,6 +6,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta name="description" content="">
       <meta name="author" content="">
+      <script src="https://kit.fontawesome.com/33ab154de2.js" crossorigin="anonymous"></script>
       <title><?php wp_title(); ?></title>
       <?php wp_head(); ?>
    </head>

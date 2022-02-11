@@ -365,23 +365,23 @@ function html_meta_box_order_info($post)
 
     echo '
     <label for="fname">Ime:</label>
-    <input type="text" id="fname" name="fname" value="'.$first_name.'" disabled><br><br>
+    <input type="text" id="fname" name="fname" value="'.$first_name.'"><br><br>
     <label for="lname">Prezime:</label>
-    <input type="text" id="lname" name="lname" value="'.$last_name.'" disabled><br><br>
+    <input type="text" id="lname" name="lname" value="'.$last_name.'"><br><br>
     <label for="city">Grad:</label>
-    <input type="text" id="city" name="city" value="'.$city.'" disabled><br><br>
+    <input type="text" id="city" name="city" value="'.$city.'"><br><br>
     <label for="street">Ulica:</label>
-    <input type="text" id="street" name="street" value="'.$street.'" disabled><br><br>
+    <input type="text" id="street" name="street" value="'.$street.'"><br><br>
     <label for="streetnum">Kućni broj:</label>
-    <input type="text" id="streetnumber" name="streetnumber" value="'.$streetnumber.'" disabled><br><br>
+    <input type="text" id="streetnumber" name="streetnumber" value="'.$streetnumber.'" ><br><br>
     <label for="zipcode">Poštanski broj:</label>
-    <input type="text" id="zipcode" name="zipcode" value="'.$zipcode.'" disabled><br><br>
+    <input type="text" id="zipcode" name="zipcode" value="'.$zipcode.'" ><br><br>
     <label for="oib">OIB:</label>
-    <input type="text" id="oib" name="oib" value="'.$oib.'" disabled><br><br>
+    <input type="text" id="oib" name="oib" value="'.$oib.'" ><br><br>
     <label for="phonenumber">Broj mobitela:</label>
-    <input type="text" id="phonenumber" name="phonenumber" value="'.$phone_number.'" disabled><br><br>
+    <input type="text" id="phonenumber" name="phonenumber" value="'.$phone_number.'" ><br><br>
     <label for="email">Email:</label>
-    <input type="email" id="email" name="email" value="'.$email.'" disabled><br><br>
+    <input type="email" id="email" name="email" value="'.$email.'" ><br><br>
     ';
     $artikli = new WP_QUERY(array('post_type' => 'artikl', 'post__in' =>explode(",",$artikliweb)));
     echo '<div>';
@@ -455,87 +455,87 @@ function spremi_podatke_narudzbe($post_id)
     {
     return;
     }
-    // //fname
-    // if(!empty($_POST['fname']))
-    // {
-    // update_post_meta($post_id, 'fname', $_POST['fname']);
-    // }
-    // else
-    // {
-    // delete_post_meta($post_id, 'fname');
-    // }
-    // //lname
-    // if(!empty($_POST['lname']))
-    // {
-    // update_post_meta($post_id, 'lname', $_POST['lname']);
-    // }
-    // else
-    // {
-    // delete_post_meta($post_id, 'lname');
-    // }
-    // //city
-    // if(!empty($_POST['city']))
-    // {
-    // update_post_meta($post_id, 'city', $_POST['city']);
-    // }
-    // else
-    // {
-    // delete_post_meta($post_id, 'city');
-    // }
-    // //street
-    // if(!empty($_POST['street']))
-    // {
-    // update_post_meta($post_id, 'street', $_POST['street']);
-    // }
-    // else
-    // {
-    // delete_post_meta($post_id, 'street');
-    // }
-    // //streetnumber
-    // if(!empty($_POST['streetnumber']))
-    // {
-    // update_post_meta($post_id, 'streetnumber', $_POST['streetnumber']);
-    // }
-    // else
-    // {
-    // delete_post_meta($post_id, 'streetnumber');
-    // }
-    // //zipcode
-    // if(!empty($_POST['zipcode']))
-    // {
-    // update_post_meta($post_id, 'zipcode', $_POST['zipcode']);
-    // }
-    // else
-    // {
-    // delete_post_meta($post_id, 'zipcode');
-    // }
-    // //oib
-    // if(!empty($_POST['oib']))
-    // {
-    // update_post_meta($post_id, 'oib', $_POST['oib']);
-    // }
-    // else
-    // {
-    // delete_post_meta($post_id, 'oib');
-    // }
-    // //phonenumber
-    // if(!empty($_POST['phonenumber']))
-    // {
-    // update_post_meta($post_id, 'phonenumber', $_POST['phonenumber']);
-    // }
-    // else
-    // {
-    // delete_post_meta($post_id, 'phonenumber');
-    // }
-    // //email
-    // if(!empty($_POST['email']))
-    // {
-    // update_post_meta($post_id, 'email', $_POST['email']);
-    // }
-    // else
-    // {
-    // delete_post_meta($post_id, 'email');
-    // }
+    //fname
+    if(!empty($_POST['fname']))
+    {
+    update_post_meta($post_id, 'fname', $_POST['fname']);
+    }
+    else
+    {
+    delete_post_meta($post_id, 'fname');
+    }
+    //lname
+    if(!empty($_POST['lname']))
+    {
+    update_post_meta($post_id, 'lname', $_POST['lname']);
+    }
+    else
+    {
+    delete_post_meta($post_id, 'lname');
+    }
+    //city
+    if(!empty($_POST['city']))
+    {
+    update_post_meta($post_id, 'city', $_POST['city']);
+    }
+    else
+    {
+    delete_post_meta($post_id, 'city');
+    }
+    //street
+    if(!empty($_POST['street']))
+    {
+    update_post_meta($post_id, 'street', $_POST['street']);
+    }
+    else
+    {
+    delete_post_meta($post_id, 'street');
+    }
+    //streetnumber
+    if(!empty($_POST['streetnumber']))
+    {
+    update_post_meta($post_id, 'streetnumber', $_POST['streetnumber']);
+    }
+    else
+    {
+    delete_post_meta($post_id, 'streetnumber');
+    }
+    //zipcode
+    if(!empty($_POST['zipcode']))
+    {
+    update_post_meta($post_id, 'zipcode', $_POST['zipcode']);
+    }
+    else
+    {
+    delete_post_meta($post_id, 'zipcode');
+    }
+    //oib
+    if(!empty($_POST['oib']))
+    {
+    update_post_meta($post_id, 'oib', $_POST['oib']);
+    }
+    else
+    {
+    delete_post_meta($post_id, 'oib');
+    }
+    //phonenumber
+    if(!empty($_POST['phonenumber']))
+    {
+    update_post_meta($post_id, 'phonenumber', $_POST['phonenumber']);
+    }
+    else
+    {
+    delete_post_meta($post_id, 'phonenumber');
+    }
+    //email
+    if(!empty($_POST['email']))
+    {
+    update_post_meta($post_id, 'email', $_POST['email']);
+    }
+    else
+    {
+    delete_post_meta($post_id, 'email');
+    }
     // //artikli
     // if(!empty($_POST['artikli']))
     // {
@@ -835,7 +835,7 @@ function html_meta_box_brend($post)
     $result = new WP_Query($args);
 
     if ($result->have_posts()):
-        echo '<select name="brendovi[]" id="brendovi[]" multiple="yes">';
+        echo '<select class="multiple_selects"name="brendovi[]" id="brendovi[]" multiple="yes">';
         while ($result->have_posts()):
             $result->the_post();
             $selected_text = (in_array(get_the_ID() , $artikli_brenda_ids)) ? "selected" : "";
@@ -1195,11 +1195,16 @@ add_action("wp_enqueue_scripts", "UcitajJsTeme");
 function admin_enqueue_scripts_callback()
 {
 
-    //Add the Select2 CSS file
-    wp_enqueue_style('select2-css', 'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css', array() , '4.1.0-rc.0');
+//Add the Select2 CSS file
+wp_enqueue_style( 'select2-css', 'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css', array(), '4.1.0-rc.0');
 
-    //Add the Select2 JavaScript file
-    wp_enqueue_script('select2-js', 'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js', 'jquery', '4.1.0-rc.0');
+//Add the Select2 JavaScript file
+wp_enqueue_script( 'select2-js', 'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js', 'jquery', '4.1.0-rc.0');
+
+//Add a JavaScript file to initialize the Select2 elements
+wp_enqueue_script( 'select2-init', '/wp-content/themes/pet_shop/js/admin_skripta.js', 'jquery', '4.1.0-rc.0');
+
+
 
 }
 add_action('admin_enqueue_scripts', 'admin_enqueue_scripts_callback');
@@ -1217,6 +1222,8 @@ function load_scripts()
 
 }
 
+
+
 add_action('wp_enqueue_scripts', 'load_scripts');
 
 define( 'SMTP_HOST', 'smtp.aol.com' );  // A2 Hosting server name. For example, "a2ss10.a2hosting.com"
@@ -1224,7 +1231,7 @@ define( 'SMTP_AUTH', true );
 define( 'SMTP_PORT', '465' );
 define( 'SMTP_SECURE', 'ssl' );
 define( 'SMTP_USERNAME', 'vuvpetshopp@aol.com' );  // Username for SMTP authentication
-define( 'SMTP_PASSWORD', 'cvxktjoveguuysyy' );          // Password for SMTP authentication
+define( 'SMTP_PASSWORD', 'dzipzlygbnbhfozz' );          // Password for SMTP authentication
 define( 'SMTP_FROM',     'vuvpetshopp@aol.com' );  // SMTP From address
 define( 'SMTP_FROMNAME', 'VUV Petshop' );         // SMTP From name
 
